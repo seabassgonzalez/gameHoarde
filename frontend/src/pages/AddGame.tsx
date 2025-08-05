@@ -19,15 +19,77 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 
 const platforms = [
-  'PlayStation 5', 'PlayStation 4', 'PlayStation 3', 'PlayStation 2', 'PlayStation',
-  'PlayStation Vita', 'PSP',
-  'Xbox Series S/X', 'Xbox One', 'Xbox 360', 'Xbox',
-  'Nintendo Switch', 'Wii U', 'Wii', 'GameCube', 'Nintendo 64', 'SNES', 'NES',
-  'Nintendo 3DS', 'Nintendo DS', 'Game Boy Advance', 'Game Boy Color', 'Game Boy',
-  'PC', 'macOS', 'Linux',
-  'iOS', 'Android',
-  'Sega Genesis', 'Sega Saturn', 'Dreamcast',
-  'Atari 2600', 'Other'
+  // Current Generation
+  'Nintendo Switch 2',
+  'PlayStation 5',
+  'Xbox Series X',
+  'Xbox Series S',
+  'Steam Deck',
+  'Meta Quest 3',
+  'PlayStation VR2',
+  
+  // Previous Generation
+  'Nintendo Switch',
+  'PlayStation 4',
+  'Xbox One',
+  'Meta Quest 2',
+  'PlayStation VR',
+  
+  // Older PlayStation
+  'PlayStation 3',
+  'PlayStation 2',
+  'PlayStation',
+  'PlayStation Vita',
+  'PSP',
+  
+  // Older Xbox
+  'Xbox 360',
+  'Xbox',
+  
+  // Older Nintendo Home
+  'Wii U',
+  'Wii',
+  'GameCube',
+  'Nintendo 64',
+  'SNES',
+  'NES',
+  
+  // Nintendo Handhelds
+  'Nintendo 3DS',
+  'Nintendo DS',
+  'Game Boy Advance',
+  'Game Boy Color',
+  'Game Boy',
+  
+  // PC/Mobile
+  'PC',
+  'macOS',
+  'Linux',
+  'iOS',
+  'Android',
+  
+  // Sega
+  'Dreamcast',
+  'Sega Saturn',
+  'Sega Genesis',
+  'Sega CD',
+  'Game Gear',
+  
+  // Classic/Retro
+  'Neo Geo',
+  'Neo Geo Pocket',
+  'TurboGrafx-16',
+  'Atari Jaguar',
+  'Atari 7800',
+  'Atari 5200',
+  'Atari 2600',
+  '3DO',
+  'Commodore 64',
+  'Amiga',
+  'Arcade',
+  
+  // Other
+  'Other'
 ];
 
 const regions = ['NTSC-U/C', 'PAL', 'NTSC-J', 'Region Free', 'Digital'];
