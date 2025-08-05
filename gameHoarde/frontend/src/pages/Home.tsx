@@ -152,7 +152,7 @@ const Home: React.FC = () => {
       >
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Typography 
                 variant="h1" 
                 component="h1" 
@@ -174,7 +174,7 @@ const Home: React.FC = () => {
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 4 }}>
                 <Button
                   variant="contained"
-                  size="large"
+                  size="medium"
                   component={Link}
                   to="/register"
                   endIcon={<ArrowForwardIcon />}
@@ -189,7 +189,7 @@ const Home: React.FC = () => {
                 </Button>
                 <Button
                   variant="outlined"
-                  size="large"
+                  size="medium"
                   component={Link}
                   to="/games"
                   sx={{ 
@@ -207,7 +207,7 @@ const Home: React.FC = () => {
                 <Chip icon={<CheckCircleIcon />} label="Instant setup" color="success" />
               </Stack>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Box
                 sx={{
                   position: 'relative',
@@ -246,7 +246,7 @@ const Home: React.FC = () => {
         {/* Stats Section */}
         <Grid container spacing={3} sx={{ mb: 10 }}>
           {stats.map((stat) => (
-            <Grid item xs={6} md={3} key={stat.label}>
+            <Grid size={{ xs: 6, md: 3 }} key={stat.label}>
               <Paper 
                 elevation={0} 
                 sx={{ 
@@ -274,7 +274,7 @@ const Home: React.FC = () => {
           </Typography>
           <Grid container spacing={4}>
             {features.map((feature, index) => (
-              <Grid item xs={12} md={4} key={index}>
+              <Grid size={{ xs: 12, md: 4 }} key={index}>
                 <Card 
                   sx={{ 
                     height: '100%',
@@ -320,7 +320,7 @@ const Home: React.FC = () => {
             How It Works
           </Typography>
           <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Box sx={{ textAlign: 'center' }}>
                 <Box
                   sx={{
@@ -347,7 +347,7 @@ const Home: React.FC = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Box sx={{ textAlign: 'center' }}>
                 <Box
                   sx={{
@@ -374,7 +374,7 @@ const Home: React.FC = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Box sx={{ textAlign: 'center' }}>
                 <Box
                   sx={{
@@ -414,7 +414,7 @@ const Home: React.FC = () => {
               <Chip
                 key={platform}
                 label={platform}
-                size="large"
+                size="medium"
                 sx={{ 
                   fontSize: '1rem',
                   py: 2.5,
@@ -432,7 +432,7 @@ const Home: React.FC = () => {
           </Typography>
           <Grid container spacing={4}>
             {testimonials.map((testimonial, index) => (
-              <Grid item xs={12} md={4} key={index}>
+              <Grid size={{ xs: 12, md: 4 }} key={index}>
                 <Card sx={{ height: '100%' }}>
                   <CardContent sx={{ p: 4 }}>
                     <Stack direction="row" spacing={0.5} sx={{ mb: 2 }}>
@@ -469,7 +469,7 @@ const Home: React.FC = () => {
             Frequently Asked Questions
           </Typography>
           <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12} md={8}>
+            <Grid size={{ xs: 12, md: 8 }}>
               {faqs.map((faq, index) => (
                 <Accordion key={index} sx={{ mb: 1 }}>
                   <AccordionSummary

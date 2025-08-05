@@ -211,3 +211,5 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     </Box>
   );
 };
+
+export default Layout;
