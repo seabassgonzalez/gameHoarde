@@ -1,0 +1,58 @@
+const mongoose = require('mongoose');
+
+const gameSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    index: true
+  },
+  platform: {
+    type: String,
+    required: true,
+    index: true
+  },
+  releaseDate: Date,
+  developer: String,
+  publisher: String,
+  genres: [String],
+  description: String,
+  coverImage: String,
+  screenshots: [String],
+  barcode: String,
+  region: String,
+  rarity: {
+    type: String,
+    enum: ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare']
+  },
+  averageRating: {
+    type: Number,
+    min: 0,
+    max: 5
+  },
+  variations: [{
+    name: String,
+    description: String,
+    barcode: String,
+    coverImage: String
+  }],
+  metadata: {
+    addedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    addedDate: {
+      type: Date,
+      default: Date.now
+    },
+    lastModified: {
+      type: Date,
+      default: Date.now
+    }
+  }
+}, {
+  timestamps: true
+});
+
+gameSchema.index({ title: 'text', developer: 'text', publisher: 'text' });
+
+module.exports = mongoose.model('Game', gameSchema);
