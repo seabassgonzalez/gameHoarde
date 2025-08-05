@@ -61,12 +61,12 @@ const GameCatalog: React.FC = () => {
   }
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
+    <Box sx={{ width: '100%' }}>
+      <Typography variant="h3" gutterBottom align="center" sx={{ mb: 4 }}>
         Game Catalog
       </Typography>
       
-      <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+      <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
         <TextField
           label="Search games"
           value={searchInput}

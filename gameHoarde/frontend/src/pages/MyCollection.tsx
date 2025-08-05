@@ -86,13 +86,13 @@ const MyCollection: React.FC = () => {
   }
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
+    <Box sx={{ width: '100%' }}>
+      <Typography variant="h3" gutterBottom align="center" sx={{ mb: 4 }}>
         My Collection
       </Typography>
 
       {stats && (
-        <Grid container spacing={2} sx={{ mb: 4 }}>
+        <Grid container spacing={2} sx={{ mb: 4, justifyContent: 'center' }}>
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h4">{stats.totalGames}</Typography>
@@ -108,10 +108,12 @@ const MyCollection: React.FC = () => {
         </Grid>
       )}
 
-      <Tabs value={tabValue} onChange={(_, newValue) => setTabValue(newValue)}>
-        <Tab label={`Collection (${userData?.gameCollection.length || 0})`} />
-        <Tab label={`Wishlist (${userData?.wishlist.length || 0})`} />
-      </Tabs>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+        <Tabs value={tabValue} onChange={(_, newValue) => setTabValue(newValue)}>
+          <Tab label={`Collection (${userData?.gameCollection.length || 0})`} />
+          <Tab label={`Wishlist (${userData?.wishlist.length || 0})`} />
+        </Tabs>
+      </Box>
 
       <TabPanel value={tabValue} index={0}>
         <Grid container spacing={3}>

@@ -63,8 +63,15 @@ const Register: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ mt: 8, mb: 4 }}>
+    <Box
+      sx={{
+        minHeight: '80vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Container maxWidth="sm" sx={{ width: '100%' }}>
         <Card>
           <CardContent sx={{ p: 4 }}>
             <Typography variant="h4" align="center" gutterBottom>
@@ -137,8 +144,8 @@ const Register: React.FC = () => {
             </form>
           </CardContent>
         </Card>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

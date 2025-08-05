@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -21,6 +21,7 @@ import { api } from '../services/api';
 import { MarketplaceListing } from '../types';
 
 const Marketplace: React.FC = () => {
+  const [searchInput, setSearchInput] = useState('');
   const [filters, setFilters] = useState({
     search: '',
     minPrice: '',
@@ -28,6 +29,15 @@ const Marketplace: React.FC = () => {
     condition: '',
     sortBy: 'createdAt',
   });
+
+  // Debounce search input
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setFilters(prev => ({ ...prev, search: searchInput }));
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timeoutId);
+  }, [searchInput]);
 
   const { data: listings, isLoading } = useQuery({
     queryKey: ['marketplace', filters],
@@ -48,8 +58,8 @@ const Marketplace: React.FC = () => {
   }
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
+    <Box sx={{ width: '100%' }}>
+      <Typography variant="h3" gutterBottom align="center" sx={{ mb: 4 }}>
         Marketplace
       </Typography>
 
