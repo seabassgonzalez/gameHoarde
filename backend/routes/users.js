@@ -8,7 +8,7 @@ router.get('/profile/:username', async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username })
       .select('-password')
-      .populate('collection.game')
+      .populate('gameCollection.game')
       .populate('wishlist.game');
 
     if (!user) {
@@ -27,7 +27,7 @@ router.get('/me', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId)
       .select('-password')
-      .populate('collection.game')
+      .populate('gameCollection.game')
       .populate('wishlist.game');
 
     res.json(user);

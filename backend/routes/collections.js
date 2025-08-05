@@ -19,7 +19,7 @@ router.post('/add', authMiddleware, async (req, res) => {
     const user = await User.findById(req.user.userId);
     
     // Check if game already in collection
-    const existingItem = user.collection.find(
+    const existingItem = user.gameCollection.find(
       item => item.game.toString() === gameId
     );
     
@@ -27,7 +27,7 @@ router.post('/add', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Game already in collection' });
     }
 
-    user.collection.push({
+    user.gameCollection.push({
       game: gameId,
       condition,
       completeness,
@@ -40,9 +40,9 @@ router.post('/add', authMiddleware, async (req, res) => {
     await user.save();
     
     // Populate the newly added game
-    await user.populate('collection.game');
+    await user.populate('gameCollection.game');
     
-    res.json(user.collection[user.collection.length - 1]);
+    res.json(user.gameCollection[user.gameCollection.length - 1]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });
@@ -53,7 +53,7 @@ router.post('/add', authMiddleware, async (req, res) => {
 router.put('/item/:itemId', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    const item = user.collection.id(req.params.itemId);
+    const item = user.gameCollection.id(req.params.itemId);
     
     if (!item) {
       return res.status(404).json({ error: 'Item not found in collection' });
@@ -73,7 +73,7 @@ router.put('/item/:itemId', authMiddleware, async (req, res) => {
 router.delete('/item/:itemId', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    user.collection.pull(req.params.itemId);
+    user.gameCollection.pull(req.params.itemId);
     await user.save();
     
     res.json({ message: 'Item removed from collection' });
@@ -133,16 +133,16 @@ router.delete('/wishlist/:itemId', authMiddleware, async (req, res) => {
 // Get collection stats
 router.get('/stats', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId).populate('collection.game');
+    const user = await User.findById(req.user.userId).populate('gameCollection.game');
     
     const stats = {
-      totalGames: user.collection.length,
-      totalValue: user.collection.reduce((sum, item) => sum + (item.purchasePrice || 0), 0),
+      totalGames: user.gameCollection.length,
+      totalValue: user.gameCollection.reduce((sum, item) => sum + (item.purchasePrice || 0), 0),
       platformBreakdown: {},
       conditionBreakdown: {}
     };
 
-    user.collection.forEach(item => {
+    user.gameCollection.forEach(item => {
       // Platform breakdown
       const platform = item.game.platform;
       stats.platformBreakdown[platform] = (stats.platformBreakdown[platform] || 0) + 1;

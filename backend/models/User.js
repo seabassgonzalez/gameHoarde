@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
       default: Date.now
     }
   },
-  collection: [{
+  gameCollection: [{
     game: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Game'

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const MarketplaceListing = require('../models/MarketplaceListing');
+const Game = require('../models/Game');
 const authMiddleware = require('../middleware/auth');
 
 // Get all listings
