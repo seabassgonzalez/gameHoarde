@@ -12,7 +12,6 @@ import {
   Chip,
   Avatar,
   Stack,
-  Divider,
   useTheme,
   alpha,
   Accordion,

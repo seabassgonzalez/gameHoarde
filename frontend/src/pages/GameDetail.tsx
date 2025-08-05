@@ -20,7 +20,6 @@ import {
 import {
   Add as AddIcon,
   Favorite as FavoriteIcon,
-  Store as StoreIcon,
 } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
