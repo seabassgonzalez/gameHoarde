@@ -138,22 +138,51 @@ router.post('/', authMiddleware, async (req, res) => {
 // Update game (authenticated users only)
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
-    const game = await Game.findByIdAndUpdate(
-      req.params.id,
-      {
-        ...req.body,
-        'metadata.lastModified': new Date()
-      },
-      { new: true }
-    );
-
+    const game = await Game.findById(req.params.id);
+    
     if (!game) {
       return res.status(404).json({ error: 'Game not found' });
     }
 
-    res.json(game);
+    // Check if user can edit (admin or original submitter for user-submitted games)
+    const isAdmin = req.user.role === 'admin';
+    const isOriginalSubmitter = game.metadata?.addedBy?.toString() === req.user.userId;
+    const isUserSubmitted = game.metadata?.userSubmitted === true;
+    
+    if (!isAdmin && isUserSubmitted && !isOriginalSubmitter) {
+      return res.status(403).json({ error: 'Not authorized to edit this game' });
+    }
+
+    // Clean description if provided
+    if (req.body.description) {
+      req.body.description = stripHtml(req.body.description);
+    }
+
+    // Update game fields
+    const updateData = {
+      ...req.body,
+      'metadata.lastModified': new Date(),
+      'metadata.lastModifiedBy': req.user.userId
+    };
+
+    // Remove fields that shouldn't be updated directly
+    delete updateData._id;
+    delete updateData.metadata?.addedBy;
+    delete updateData.metadata?.addedDate;
+    delete updateData.metadata?.userSubmitted;
+
+    const updatedGame = await Game.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    res.json(updatedGame);
   } catch (error) {
     console.error(error);
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: 'Server error' });
   }
 });

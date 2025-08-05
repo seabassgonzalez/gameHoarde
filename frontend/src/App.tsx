@@ -14,6 +14,7 @@ import Marketplace from './pages/Marketplace';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AddGame from './pages/AddGame';
+import EditGame from './pages/EditGame';
 import PrivateRoute from './components/PrivateRoute';
 
 const queryClient = new QueryClient();
@@ -59,6 +60,14 @@ function App() {
                   element={
                     <PrivateRoute>
                       <AddGame />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/games/:id/edit"
+                  element={
+                    <PrivateRoute>
+                      <EditGame />
                     </PrivateRoute>
                   }
                 />

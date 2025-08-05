@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -26,6 +26,7 @@ import {
 } from '@mui/icons-material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 const platforms = [
   // Current Generation
@@ -113,8 +114,10 @@ const commonGenres = [
   'Real-Time Strategy', 'Tower Defense', 'Roguelike', 'Metroidvania'
 ];
 
-const AddGame: React.FC = () => {
+const EditGame: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageTab, setImageTab] = useState(0); // 0 for URL, 1 for Upload
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -134,7 +137,36 @@ const AddGame: React.FC = () => {
     rarity: '',
   });
   const [error, setError] = useState('');
-  const [duplicateGame, setDuplicateGame] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch game data
+  const { data: game } = useQuery({
+    queryKey: ['game', id],
+    queryFn: async () => {
+      const response = await api.get(`/games/${id}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setFormData({
+        title: data.title || '',
+        platform: data.platform || '',
+        developer: data.developer || '',
+        publisher: data.publisher || '',
+        releaseDate: data.releaseDate ? new Date(data.releaseDate).toISOString().split('T')[0] : '',
+        genres: data.genres || [],
+        description: data.description || '',
+        coverImage: data.coverImage || '',
+        barcode: data.barcode || '',
+        region: data.region || '',
+        rarity: data.rarity || '',
+      });
+      setLoading(false);
+    },
+    onError: () => {
+      setError('Failed to load game data');
+      setLoading(false);
+    },
+  });
 
   // Cleanup blob URLs on unmount
   useEffect(() => {
@@ -145,35 +177,29 @@ const AddGame: React.FC = () => {
     };
   }, [uploadedImageUrl]);
 
-  const addGameMutation = useMutation({
+  const updateGameMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      const response = await api.post('/games', data);
+      const response = await api.put(`/games/${id}`, data);
       return response.data;
     },
     onSuccess: (data) => {
       navigate(`/games/${data._id}`);
     },
     onError: (error: any) => {
-      if (error.response?.data?.existingGame) {
-        setDuplicateGame(error.response.data.existingGame);
-        setError(error.response.data.error);
-      } else {
-        setError(error.response?.data?.error || 'Failed to add game');
-      }
+      setError(error.response?.data?.error || 'Failed to update game');
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setDuplicateGame(null);
 
     if (!formData.title || !formData.platform) {
       setError('Title and platform are required');
       return;
     }
 
-    addGameMutation.mutate(formData);
+    updateGameMutation.mutate(formData);
   };
 
   const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,14 +260,47 @@ const AddGame: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // Check if user can edit
+  const canEdit = user && (
+    user.role === 'admin' || 
+    (game?.metadata?.userSubmitted && game?.metadata?.addedBy === user._id)
+  );
+
+  if (!canEdit) {
+    return (
+      <Container maxWidth="md">
+        <Box sx={{ py: 4 }}>
+          <Alert severity="error">
+            You are not authorized to edit this game.
+          </Alert>
+          <Button 
+            variant="contained" 
+            onClick={() => navigate(`/games/${id}`)}
+            sx={{ mt: 2 }}
+          >
+            Back to Game
+          </Button>
+        </Box>
+      </Container>
+    );
+  }
+
   return (
     <Container maxWidth="md">
       <Box sx={{ py: 4 }}>
         <Typography variant="h3" gutterBottom align="center">
-          Add New Game
+          Edit Game
         </Typography>
         <Typography variant="body1" color="text.secondary" align="center" sx={{ mb: 4 }}>
-          Can't find a game in our database? Add it here!
+          Update game information
         </Typography>
 
         <Paper sx={{ p: 4 }}>
@@ -251,20 +310,6 @@ const AddGame: React.FC = () => {
                 <Grid size={12}>
                   <Alert severity="error" sx={{ mb: 2 }}>
                     {error}
-                    {duplicateGame && (
-                      <Box sx={{ mt: 1 }}>
-                        <Typography variant="body2">
-                          Found: {duplicateGame.title} ({duplicateGame.platform})
-                        </Typography>
-                        <Button
-                          size="small"
-                          onClick={() => navigate(`/games/${duplicateGame._id}`)}
-                          sx={{ mt: 1 }}
-                        >
-                          View Existing Game
-                        </Button>
-                      </Box>
-                    )}
                   </Alert>
                 </Grid>
               )}
@@ -405,7 +450,7 @@ const AddGame: React.FC = () => {
                           fullWidth
                           sx={{ py: 2 }}
                         >
-                          Select Image File
+                          Select New Image File
                         </Button>
                       ) : (
                         <Box>
@@ -421,19 +466,18 @@ const AddGame: React.FC = () => {
                             variant="contained"
                             startIcon={<UploadIcon />}
                             onClick={handleImageUpload}
-                            disabled={uploading || !!formData.coverImage}
+                            disabled={uploading}
                             fullWidth
                           >
-                            {uploading ? <CircularProgress size={24} /> : 
-                             formData.coverImage ? 'Image Uploaded' : 'Upload Image'}
+                            {uploading ? <CircularProgress size={24} /> : 'Upload New Image'}
                           </Button>
                         </Box>
                       )}
                       
-                      {uploadedImageUrl && !formData.coverImage && (
+                      {uploadedImageUrl && (
                         <Box sx={{ mt: 2, textAlign: 'center' }}>
                           <Typography variant="caption" display="block" gutterBottom>
-                            Preview (click "Upload Image" to save)
+                            New Image Preview
                           </Typography>
                           <img
                             src={uploadedImageUrl}
@@ -499,11 +543,11 @@ const AddGame: React.FC = () => {
                 <Grid size={12}>
                   <Box sx={{ mt: 2, textAlign: 'center' }}>
                     <Typography variant="subtitle2" gutterBottom>
-                      Cover Preview:
+                      Current Cover:
                     </Typography>
                     <img
                       src={formData.coverImage}
-                      alt="Cover preview"
+                      alt="Current cover"
                       style={{
                         maxWidth: '200px',
                         maxHeight: '300px',
@@ -522,7 +566,7 @@ const AddGame: React.FC = () => {
                   <Button
                     variant="outlined"
                     startIcon={<CancelIcon />}
-                    onClick={() => navigate('/games')}
+                    onClick={() => navigate(`/games/${id}`)}
                   >
                     Cancel
                   </Button>
@@ -530,9 +574,9 @@ const AddGame: React.FC = () => {
                     type="submit"
                     variant="contained"
                     startIcon={<SaveIcon />}
-                    disabled={addGameMutation.isPending}
+                    disabled={updateGameMutation.isPending}
                   >
-                    {addGameMutation.isPending ? <CircularProgress size={24} /> : 'Add Game'}
+                    {updateGameMutation.isPending ? <CircularProgress size={24} /> : 'Save Changes'}
                   </Button>
                 </Box>
               </Grid>
@@ -544,4 +588,4 @@ const AddGame: React.FC = () => {
   );
 };
 
-export default AddGame;
+export default EditGame;

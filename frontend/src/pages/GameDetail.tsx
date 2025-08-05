@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Grid,
@@ -20,6 +20,7 @@ import {
 import {
   Add as AddIcon,
   Favorite as FavoriteIcon,
+  Edit as EditIcon,
 } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
@@ -29,6 +30,7 @@ import { parseHtmlDescription } from '../utils/stripHtml';
 
 const GameDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [addToCollectionOpen, setAddToCollectionOpen] = useState(false);
@@ -151,9 +153,21 @@ const GameDetail: React.FC = () => {
                 variant="outlined"
                 startIcon={<FavoriteIcon />}
                 onClick={() => addToWishlistMutation.mutate()}
+                sx={{ mr: 2 }}
               >
                 Add to Wishlist
               </Button>
+              {(user.role === 'admin' || 
+                (game.metadata?.userSubmitted && game.metadata?.addedBy === user._id)) && (
+                <Button
+                  variant="outlined"
+                  startIcon={<EditIcon />}
+                  onClick={() => navigate(`/games/${id}/edit`)}
+                  color="secondary"
+                >
+                  Edit Game
+                </Button>
+              )}
             </Box>
           )}
         </Grid>
