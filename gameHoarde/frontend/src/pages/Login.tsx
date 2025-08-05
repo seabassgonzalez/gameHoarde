@@ -27,7 +27,7 @@ const Login: React.FC = () => {
 
     try {
       await login(username, password);
-      navigate('/');
+      navigate('/my-collection');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {

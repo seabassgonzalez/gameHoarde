@@ -35,6 +35,11 @@ const Register: React.FC = () => {
     e.preventDefault();
     setError('');
 
+    if (formData.username.length < 3) {
+      setError('Username must be at least 3 characters');
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -49,7 +54,7 @@ const Register: React.FC = () => {
 
     try {
       await register(formData.username, formData.email, formData.password);
-      navigate('/');
+      navigate('/my-collection');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Registration failed');
     } finally {
