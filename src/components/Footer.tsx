@@ -75,7 +75,7 @@ const Footer: React.FC = () => {
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
               <GamesIcon sx={{ fontSize: 32, color: theme.palette.primary.main }} />
               <Typography variant="h5" fontWeight="bold">
-                GameHoard
+                GameHorde
               </Typography>
             </Stack>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -215,7 +215,7 @@ const Footer: React.FC = () => {
           spacing={2}
         >
           <Typography variant="body2" color="text.secondary">
-            © {currentYear} GameHoard. All rights reserved.
+            © {currentYear} GameHorde. All rights reserved.
           </Typography>
           <Stack direction="row" spacing={2} alignItems="center">
             <IconButton

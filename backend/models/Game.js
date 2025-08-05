@@ -29,6 +29,14 @@ const gameSchema = new mongoose.Schema({
     min: 0,
     max: 5
   },
+  metacriticScore: Number,
+  esrbRating: String,
+  rawgId: {
+    type: Number,
+    unique: true,
+    sparse: true
+  },
+  slug: String,
   variations: [{
     name: String,
     description: String,

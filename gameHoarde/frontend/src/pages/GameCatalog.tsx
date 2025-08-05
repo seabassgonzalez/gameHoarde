@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -20,8 +20,19 @@ import { Game } from '../types';
 const GameCatalog: React.FC = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [platform, setPlatform] = useState('');
   const [sortBy, setSortBy] = useState('title');
+
+  // Debounce search input
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearch(searchInput);
+      setPage(1); // Reset to first page when searching
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timeoutId);
+  }, [searchInput]);
 
   const { data, isLoading } = useQuery({
     queryKey: ['games', page, search, platform, sortBy],
@@ -58,8 +69,8 @@ const GameCatalog: React.FC = () => {
       <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
         <TextField
           label="Search games"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           size="small"
           sx={{ minWidth: 200 }}
         />
@@ -67,7 +78,10 @@ const GameCatalog: React.FC = () => {
           select
           label="Platform"
           value={platform}
-          onChange={(e) => setPlatform(e.target.value)}
+          onChange={(e) => {
+            setPlatform(e.target.value);
+            setPage(1);
+          }}
           size="small"
           sx={{ minWidth: 150 }}
         >
@@ -80,7 +94,10 @@ const GameCatalog: React.FC = () => {
           select
           label="Sort by"
           value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
+          onChange={(e) => {
+            setSortBy(e.target.value);
+            setPage(1);
+          }}
           size="small"
           sx={{ minWidth: 150 }}
         >

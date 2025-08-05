@@ -110,7 +110,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component={Link} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
-            GameHoard
+            GameHorde
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Button color="inherit" component={Link} to="/games">

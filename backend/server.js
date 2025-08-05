@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gamehoard', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gamehorde', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -28,6 +28,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/collections', require('./routes/collections'));
 app.use('/api/marketplace', require('./routes/marketplace'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/import', require('./routes/gameImport'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

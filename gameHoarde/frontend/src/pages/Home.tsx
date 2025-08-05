@@ -80,7 +80,7 @@ const Home: React.FC = () => {
       name: 'Alex Chen',
       avatar: 'A',
       role: 'Retro Game Collector',
-      content: 'GameHoard helped me catalog my 500+ game collection. The value tracking feature is amazing!',
+      content: 'GameHorde helped me catalog my 500+ game collection. The value tracking feature is amazing!',
       rating: 5,
     },
     {
@@ -113,8 +113,8 @@ const Home: React.FC = () => {
 
   const faqs = [
     {
-      question: 'How much does GameHoard cost?',
-      answer: 'GameHoard is free to join! Create your account, catalog your collection, and browse the marketplace at no cost. We only charge a small fee on successful marketplace transactions.'
+      question: 'How much does GameHorde cost?',
+      answer: 'GameHorde is free to join! Create your account, catalog your collection, and browse the marketplace at no cost. We only charge a small fee on successful marketplace transactions.'
     },
     {
       question: 'How do I add games to my collection?',
@@ -126,7 +126,7 @@ const Home: React.FC = () => {
     },
     {
       question: 'Can I track the value of my collection?',
-      answer: 'Absolutely! GameHoard provides real-time market valuations based on recent sales data. You can see your collection\'s total value, individual game values, and track changes over time.'
+      answer: 'Absolutely! GameHorde provides real-time market valuations based on recent sales data. You can see your collection\'s total value, individual game values, and track changes over time.'
     },
     {
       question: 'What platforms and games are supported?',
@@ -504,7 +504,7 @@ const Home: React.FC = () => {
             Ready to Start Your Collection Journey?
           </Typography>
           <Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 4 }}>
-            Join thousands of collectors who trust GameHoard to manage their gaming treasures
+            Join thousands of collectors who trust GameHorde to manage their gaming treasures
           </Typography>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
             <Button
@@ -520,7 +520,7 @@ const Home: React.FC = () => {
                 boxShadow: 4,
               }}
             >
-              Join GameHoard Free
+              Join GameHorde Free
             </Button>
             <Button
               variant="outlined"

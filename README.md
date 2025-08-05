@@ -1,4 +1,4 @@
-# GameHoard - Video Game Collection Management System
+# GameHorde - Video Game Collection Management System
 
 A full-stack application for managing video game collections, inspired by Discogs but tailored for video games. Users can catalog their games, track their collection value, buy/sell games in the marketplace, and connect with other collectors.
 
@@ -36,8 +36,8 @@ A full-stack application for managing video game collections, inspired by Discog
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/gamehoard.git
-cd gamehoard
+git clone https://github.com/yourusername/gamehorde.git
+cd gamehorde
 ```
 
 2. Install backend dependencies:
@@ -50,7 +50,7 @@ npm install
 Create a `.env` file in the backend directory with:
 ```
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/gamehoard
+MONGODB_URI=mongodb://localhost:27017/gamehorde
 JWT_SECRET=your_secret_key_here
 NODE_ENV=development
 ```
