@@ -13,6 +13,7 @@ import MyCollection from './pages/MyCollection';
 import Marketplace from './pages/Marketplace';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import AddGame from './pages/AddGame';
 import PrivateRoute from './components/PrivateRoute';
 
 const queryClient = new QueryClient();
@@ -53,6 +54,14 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/games" element={<GameCatalog />} />
+                <Route
+                  path="/games/add"
+                  element={
+                    <PrivateRoute>
+                      <AddGame />
+                    </PrivateRoute>
+                  }
+                />
                 <Route path="/games/:id" element={<GameDetail />} />
                 <Route path="/marketplace" element={<Marketplace />} />
                 <Route path="/user/:username" element={<UserProfile />} />

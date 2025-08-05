@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Grid,
@@ -12,12 +12,17 @@ import {
   Pagination,
   CircularProgress,
   Chip,
+  Button,
 } from '@mui/material';
+import { Add as AddIcon } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
+import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 import { Game } from '../types';
 
 const GameCatalog: React.FC = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
@@ -62,9 +67,20 @@ const GameCatalog: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Typography variant="h3" gutterBottom align="center" sx={{ mb: 4 }}>
-        Game Catalog
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Typography variant="h3">
+          Game Catalog
+        </Typography>
+        {user && (
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => navigate('/games/add')}
+          >
+            Add New Game
+          </Button>
+        )}
+      </Box>
       
       <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
         <TextField
@@ -148,6 +164,28 @@ const GameCatalog: React.FC = () => {
           </Grid>
         ))}
       </Grid>
+
+      {data?.games.length === 0 && (
+        <Box sx={{ textAlign: 'center', mt: 4 }}>
+          <Typography variant="h6" color="text.secondary" gutterBottom>
+            No games found
+          </Typography>
+          {user && (
+            <>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                Can't find the game you're looking for? Add it to our database!
+              </Typography>
+              <Button
+                variant="outlined"
+                startIcon={<AddIcon />}
+                onClick={() => navigate('/games/add')}
+              >
+                Add New Game
+              </Button>
+            </>
+          )}
+        </Box>
+      )}
 
       {data?.totalPages > 1 && (
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>

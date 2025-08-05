@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Game = require('../models/Game');
 const authMiddleware = require('../middleware/auth');
+const { stripHtml } = require('../utils/stripHtml');
 
 // Get all games with pagination and search
 router.get('/', async (req, res) => {
@@ -67,11 +68,57 @@ router.get('/:id', async (req, res) => {
 // Add new game (authenticated users only)
 router.post('/', authMiddleware, async (req, res) => {
   try {
+    const {
+      title,
+      platform,
+      developer,
+      publisher,
+      releaseDate,
+      genres,
+      description,
+      coverImage,
+      barcode,
+      region,
+      rarity
+    } = req.body;
+
+    // Validate required fields
+    if (!title || !platform) {
+      return res.status(400).json({ error: 'Title and platform are required' });
+    }
+
+    // Check if game already exists
+    const existingGame = await Game.findOne({
+      title: { $regex: new RegExp(`^${title}$`, 'i') },
+      platform
+    });
+
+    if (existingGame) {
+      return res.status(400).json({ 
+        error: 'A game with this title and platform already exists',
+        existingGame: existingGame
+      });
+    }
+
+    // Clean description if provided
+    const cleanedDescription = description ? stripHtml(description) : '';
+
     const gameData = {
-      ...req.body,
+      title,
+      platform,
+      developer: developer || 'Unknown',
+      publisher: publisher || 'Unknown',
+      releaseDate: releaseDate ? new Date(releaseDate) : null,
+      genres: genres || [],
+      description: cleanedDescription,
+      coverImage,
+      barcode,
+      region,
+      rarity,
       metadata: {
         addedBy: req.user.userId,
-        addedDate: new Date()
+        addedDate: new Date(),
+        userSubmitted: true
       }
     };
 
@@ -81,6 +128,9 @@ router.post('/', authMiddleware, async (req, res) => {
     res.status(201).json(game);
   } catch (error) {
     console.error(error);
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: 'Server error' });
   }
 });
