@@ -22,6 +22,8 @@ import { MarketplaceListing } from '../types';
 
 const Marketplace: React.FC = () => {
   const [searchInput, setSearchInput] = useState('');
+  const [minPriceInput, setMinPriceInput] = useState('');
+  const [maxPriceInput, setMaxPriceInput] = useState('');
   const [filters, setFilters] = useState({
     search: '',
     minPrice: '',
@@ -38,6 +40,19 @@ const Marketplace: React.FC = () => {
 
     return () => clearTimeout(timeoutId);
   }, [searchInput]);
+
+  // Debounce price inputs
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setFilters(prev => ({ 
+        ...prev, 
+        minPrice: minPriceInput,
+        maxPrice: maxPriceInput 
+      }));
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timeoutId);
+  }, [minPriceInput, maxPriceInput]);
 
   const { data: listings, isLoading } = useQuery({
     queryKey: ['marketplace', filters],
@@ -63,19 +78,19 @@ const Marketplace: React.FC = () => {
         Marketplace
       </Typography>
 
-      <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+      <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
         <TextField
           label="Search listings"
-          value={filters.search}
-          onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           size="small"
           sx={{ minWidth: 200 }}
         />
         <TextField
           label="Min Price"
           type="number"
-          value={filters.minPrice}
-          onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
+          value={minPriceInput}
+          onChange={(e) => setMinPriceInput(e.target.value)}
           size="small"
           sx={{ width: 120 }}
           InputProps={{
@@ -85,8 +100,8 @@ const Marketplace: React.FC = () => {
         <TextField
           label="Max Price"
           type="number"
-          value={filters.maxPrice}
-          onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
+          value={maxPriceInput}
+          onChange={(e) => setMaxPriceInput(e.target.value)}
           size="small"
           sx={{ width: 120 }}
           InputProps={{
