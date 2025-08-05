@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { stripHtml } = require('../utils/stripHtml');
 
 // RAWG API - Free video game database
 // Get your free API key at: https://rawg.io/apidocs
@@ -52,7 +53,7 @@ class RAWGService {
       publisher: this.extractPublisher(rawgGame),
       releaseDate: rawgGame.released ? new Date(rawgGame.released) : null,
       genres: rawgGame.genres ? rawgGame.genres.map(g => g.name) : [],
-      description: rawgGame.description_raw || rawgGame.description || '',
+      description: stripHtml(rawgGame.description_raw || rawgGame.description || ''),
       coverImage: rawgGame.background_image,
       metacriticScore: rawgGame.metacritic,
       esrbRating: rawgGame.esrb_rating ? rawgGame.esrb_rating.name : null,

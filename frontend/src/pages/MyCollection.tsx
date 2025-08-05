@@ -181,15 +181,35 @@ const MyCollection: React.FC = () => {
         <Grid container spacing={3}>
           {userData?.wishlist.map((item: any) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
-              <Card>
+              <Card sx={{ position: 'relative' }}>
                 <CardMedia
-                  component="img"
-                  height="200"
-                  image={item.game.coverImage || '/placeholder-game.png'}
-                  alt={item.game.title}
-                />
+                  component={Link}
+                  to={`/games/${item.game._id}`}
+                  sx={{
+                    display: 'block',
+                    textDecoration: 'none',
+                    '&:hover': { opacity: 0.9 }
+                  }}
+                >
+                  <img
+                    src={item.game.coverImage || '/placeholder-game.png'}
+                    alt={item.game.title}
+                    style={{ width: '100%', height: 200, objectFit: 'cover' }}
+                  />
+                </CardMedia>
                 <CardContent>
-                  <Typography variant="h6" noWrap gutterBottom>
+                  <Typography 
+                    variant="h6" 
+                    noWrap 
+                    gutterBottom
+                    component={Link}
+                    to={`/games/${item.game._id}`}
+                    sx={{
+                      textDecoration: 'none',
+                      color: 'inherit',
+                      '&:hover': { textDecoration: 'underline' }
+                    }}
+                  >
                     {item.game.title}
                   </Typography>
                   <Box sx={{ mb: 1 }}>

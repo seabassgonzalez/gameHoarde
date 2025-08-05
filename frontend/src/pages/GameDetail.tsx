@@ -25,6 +25,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 import { Game } from '../types';
+import { parseHtmlDescription } from '../utils/stripHtml';
 
 const GameDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -130,8 +131,8 @@ const GameDetail: React.FC = () => {
               <Typography variant="h5" gutterBottom>
                 Description
               </Typography>
-              <Typography variant="body1">
-                {game.description}
+              <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
+                {parseHtmlDescription(game.description)}
               </Typography>
             </Box>
           )}

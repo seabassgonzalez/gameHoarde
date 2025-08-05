@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -123,7 +123,16 @@ const UserProfile: React.FC = () => {
           <Grid container spacing={2}>
             {user.gameCollection.map((item: any) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
-                <Paper sx={{ overflow: 'hidden' }}>
+                <Paper 
+                  sx={{ 
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s',
+                    '&:hover': { transform: 'scale(1.02)' }
+                  }}
+                  component={Link}
+                  to={`/games/${item.game._id}`}
+                >
                   <Box
                     sx={{
                       height: 140,
@@ -133,7 +142,14 @@ const UserProfile: React.FC = () => {
                     }}
                   />
                   <Box sx={{ p: 2 }}>
-                    <Typography variant="h6" noWrap>
+                    <Typography 
+                      variant="h6" 
+                      noWrap
+                      sx={{ 
+                        textDecoration: 'none',
+                        color: 'inherit'
+                      }}
+                    >
                       {item.game.title}
                     </Typography>
                     <Chip label={item.game.platform} size="small" sx={{ mr: 1, mt: 1 }} />
@@ -154,7 +170,16 @@ const UserProfile: React.FC = () => {
           <Grid container spacing={2}>
             {user.wishlist.map((item: any) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
-                <Paper sx={{ overflow: 'hidden' }}>
+                <Paper 
+                  sx={{ 
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s',
+                    '&:hover': { transform: 'scale(1.02)' }
+                  }}
+                  component={Link}
+                  to={`/games/${item.game._id}`}
+                >
                   <Box
                     sx={{
                       height: 140,
@@ -164,7 +189,14 @@ const UserProfile: React.FC = () => {
                     }}
                   />
                   <Box sx={{ p: 2 }}>
-                    <Typography variant="h6" noWrap>
+                    <Typography 
+                      variant="h6" 
+                      noWrap
+                      sx={{ 
+                        textDecoration: 'none',
+                        color: 'inherit'
+                      }}
+                    >
                       {item.game.title}
                     </Typography>
                     <Chip label={item.game.platform} size="small" sx={{ mr: 1, mt: 1 }} />
