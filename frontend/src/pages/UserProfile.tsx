@@ -123,15 +123,25 @@ const UserProfile: React.FC = () => {
           <Grid container spacing={2}>
             {user.gameCollection.map((item: any) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
-                <Paper sx={{ p: 2 }}>
-                  <Typography variant="h6" noWrap>
-                    {item.game.title}
-                  </Typography>
-                  <Chip label={item.game.platform} size="small" sx={{ mr: 1, mt: 1 }} />
-                  <Chip label={item.condition} size="small" variant="outlined" />
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                    {item.completeness}
-                  </Typography>
+                <Paper sx={{ overflow: 'hidden' }}>
+                  <Box
+                    sx={{
+                      height: 140,
+                      backgroundImage: `url(${item.game.coverImage || '/placeholder-game.png'})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  />
+                  <Box sx={{ p: 2 }}>
+                    <Typography variant="h6" noWrap>
+                      {item.game.title}
+                    </Typography>
+                    <Chip label={item.game.platform} size="small" sx={{ mr: 1, mt: 1 }} />
+                    <Chip label={item.condition} size="small" variant="outlined" />
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                      {item.completeness}
+                    </Typography>
+                  </Box>
                 </Paper>
               </Grid>
             ))}
@@ -144,16 +154,26 @@ const UserProfile: React.FC = () => {
           <Grid container spacing={2}>
             {user.wishlist.map((item: any) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
-                <Paper sx={{ p: 2 }}>
-                  <Typography variant="h6" noWrap>
-                    {item.game.title}
-                  </Typography>
-                  <Chip label={item.game.platform} size="small" sx={{ mr: 1, mt: 1 }} />
-                  <Chip
-                    label={`Priority: ${item.priority}`}
-                    size="small"
-                    color={item.priority === 'High' ? 'error' : item.priority === 'Medium' ? 'warning' : 'default'}
+                <Paper sx={{ overflow: 'hidden' }}>
+                  <Box
+                    sx={{
+                      height: 140,
+                      backgroundImage: `url(${item.game.coverImage || '/placeholder-game.png'})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
                   />
+                  <Box sx={{ p: 2 }}>
+                    <Typography variant="h6" noWrap>
+                      {item.game.title}
+                    </Typography>
+                    <Chip label={item.game.platform} size="small" sx={{ mr: 1, mt: 1 }} />
+                    <Chip
+                      label={`Priority: ${item.priority}`}
+                      size="small"
+                      color={item.priority === 'High' ? 'error' : item.priority === 'Medium' ? 'warning' : 'default'}
+                    />
+                  </Box>
                 </Paper>
               </Grid>
             ))}

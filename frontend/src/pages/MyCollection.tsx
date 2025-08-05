@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -119,15 +120,35 @@ const MyCollection: React.FC = () => {
         <Grid container spacing={3}>
           {userData?.gameCollection.map((item: any) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
-              <Card>
+              <Card sx={{ position: 'relative' }}>
                 <CardMedia
-                  component="img"
-                  height="200"
-                  image={item.game.coverImage || '/placeholder-game.png'}
-                  alt={item.game.title}
-                />
+                  component={Link}
+                  to={`/games/${item.game._id}`}
+                  sx={{
+                    display: 'block',
+                    textDecoration: 'none',
+                    '&:hover': { opacity: 0.9 }
+                  }}
+                >
+                  <img
+                    src={item.game.coverImage || '/placeholder-game.png'}
+                    alt={item.game.title}
+                    style={{ width: '100%', height: 200, objectFit: 'cover' }}
+                  />
+                </CardMedia>
                 <CardContent>
-                  <Typography variant="h6" noWrap gutterBottom>
+                  <Typography 
+                    variant="h6" 
+                    noWrap 
+                    gutterBottom
+                    component={Link}
+                    to={`/games/${item.game._id}`}
+                    sx={{
+                      textDecoration: 'none',
+                      color: 'inherit',
+                      '&:hover': { textDecoration: 'underline' }
+                    }}
+                  >
                     {item.game.title}
                   </Typography>
                   <Box sx={{ mb: 1 }}>
@@ -157,29 +178,50 @@ const MyCollection: React.FC = () => {
       </TabPanel>
 
       <TabPanel value={tabValue} index={1}>
-        <List>
+        <Grid container spacing={3}>
           {userData?.wishlist.map((item: any) => (
-            <ListItem key={item._id}>
-              <ListItemText
-                primary={item.game.title}
-                secondary={
-                  <>
-                    {item.game.platform} • Priority: {item.priority}
-                    {item.maxPrice && ` • Max: $${item.maxPrice}`}
-                  </>
-                }
-              />
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  onClick={() => removeFromWishlistMutation.mutate(item._id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
+              <Card>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={item.game.coverImage || '/placeholder-game.png'}
+                  alt={item.game.title}
+                />
+                <CardContent>
+                  <Typography variant="h6" noWrap gutterBottom>
+                    {item.game.title}
+                  </Typography>
+                  <Box sx={{ mb: 1 }}>
+                    <Chip label={item.game.platform} size="small" color="primary" sx={{ mr: 1 }} />
+                    <Chip 
+                      label={`Priority: ${item.priority}`} 
+                      size="small" 
+                      color={item.priority === 'High' ? 'error' : item.priority === 'Medium' ? 'warning' : 'default'} 
+                    />
+                  </Box>
+                  {item.maxPrice && (
+                    <Typography variant="body2" color="text.secondary">
+                      Max Price: ${item.maxPrice}
+                    </Typography>
+                  )}
+                  {item.notes && (
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                      {item.notes}
+                    </Typography>
+                  )}
+                  <IconButton
+                    size="small"
+                    onClick={() => removeFromWishlistMutation.mutate(item._id)}
+                    sx={{ position: 'absolute', top: 8, right: 8 }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
-        </List>
+        </Grid>
       </TabPanel>
     </Box>
   );
