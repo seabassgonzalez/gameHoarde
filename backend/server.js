@@ -8,8 +8,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+const allowedOrigins = process.env.NODE_ENV === 'production' 
+  ? [process.env.FRONTEND_URL || 'https://your-app.onrender.com']
+  : ['http://localhost:3000', 'http://localhost:3001'];
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
@@ -34,6 +38,15 @@ app.use('/api/marketplace', require('./routes/marketplace'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/import', require('./routes/gameImport'));
 app.use('/api/upload', require('./routes/upload'));
+
+// Serve React app in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
