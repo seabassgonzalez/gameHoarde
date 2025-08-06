@@ -27,6 +27,7 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
+import { Game } from '../types';
 
 const platforms = [
   // Current Generation
@@ -140,33 +141,40 @@ const EditGame: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   // Fetch game data
-  const { data: game } = useQuery({
+  const { data: game, isLoading: queryLoading, error: queryError } = useQuery<Game>({
     queryKey: ['game', id],
     queryFn: async () => {
-      const response = await api.get(`/games/${id}`);
+      const response = await api.get<Game>(`/games/${id}`);
       return response.data;
     },
-    onSuccess: (data) => {
+  });
+
+  // Update form data when game data is loaded
+  useEffect(() => {
+    if (game) {
       setFormData({
-        title: data.title || '',
-        platform: data.platform || '',
-        developer: data.developer || '',
-        publisher: data.publisher || '',
-        releaseDate: data.releaseDate ? new Date(data.releaseDate).toISOString().split('T')[0] : '',
-        genres: data.genres || [],
-        description: data.description || '',
-        coverImage: data.coverImage || '',
-        barcode: data.barcode || '',
-        region: data.region || '',
-        rarity: data.rarity || '',
+        title: game.title || '',
+        platform: game.platform || '',
+        developer: game.developer || '',
+        publisher: game.publisher || '',
+        releaseDate: game.releaseDate ? new Date(game.releaseDate).toISOString().split('T')[0] : '',
+        genres: game.genres || [],
+        description: game.description || '',
+        coverImage: game.coverImage || '',
+        barcode: game.barcode || '',
+        region: game.region || '',
+        rarity: game.rarity || '',
       });
       setLoading(false);
-    },
-    onError: () => {
+    }
+  }, [game]);
+
+  useEffect(() => {
+    if (queryError) {
       setError('Failed to load game data');
       setLoading(false);
-    },
-  });
+    }
+  }, [queryError]);
 
   // Cleanup blob URLs on unmount
   useEffect(() => {

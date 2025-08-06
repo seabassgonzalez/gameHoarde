@@ -1,7 +1,9 @@
 export interface User {
+  _id: string;
   id: string;
   username: string;
   email: string;
+  role?: 'user' | 'admin';
   profile: {
     displayName: string;
     avatar?: string;
@@ -34,6 +36,13 @@ export interface Game {
   rarity?: 'Common' | 'Uncommon' | 'Rare' | 'Very Rare' | 'Ultra Rare';
   averageRating?: number;
   variations?: GameVariation[];
+  metadata?: {
+    addedBy?: string;
+    addedDate?: Date;
+    userSubmitted?: boolean;
+    lastModified?: Date;
+    lastModifiedBy?: string;
+  };
 }
 
 export interface GameVariation {
