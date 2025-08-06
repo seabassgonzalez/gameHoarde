@@ -141,7 +141,7 @@ const EditGame: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   // Fetch game data
-  const { data: game, isLoading: queryLoading, error: queryError } = useQuery<Game>({
+  const { data: game, isLoading, error: queryError } = useQuery<Game>({
     queryKey: ['game', id],
     queryFn: async () => {
       const response = await api.get<Game>(`/games/${id}`);

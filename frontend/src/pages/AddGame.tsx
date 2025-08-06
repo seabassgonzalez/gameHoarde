@@ -24,7 +24,7 @@ import {
   Delete as DeleteIcon,
   Image as ImageIcon,
 } from '@mui/icons-material';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { api } from '../services/api';
 
 const platforms = [

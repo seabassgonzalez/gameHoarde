@@ -187,6 +187,28 @@ router.put('/:id', authMiddleware, async (req, res) => {
   }
 });
 
+// Delete game (admin only)
+router.delete('/:id', authMiddleware, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const game = await Game.findById(req.params.id);
+    
+    if (!game) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+
+    await Game.findByIdAndDelete(req.params.id);
+    
+    res.json({ message: 'Game deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // Get platforms list
 router.get('/metadata/platforms', async (req, res) => {
   try {

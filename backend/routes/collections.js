@@ -16,6 +16,13 @@ router.post('/add', authMiddleware, async (req, res) => {
       photos
     } = req.body;
 
+    // Check if game exists
+    const Game = require('../models/Game');
+    const gameExists = await Game.findById(gameId);
+    if (!gameExists) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+
     const user = await User.findById(req.user.userId);
     
     // Check if game already in collection
@@ -73,6 +80,13 @@ router.put('/item/:itemId', authMiddleware, async (req, res) => {
 router.delete('/item/:itemId', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
+    
+    // Check if item exists
+    const itemExists = user.gameCollection.id(req.params.itemId);
+    if (!itemExists) {
+      return res.status(404).json({ error: 'Item not found in collection' });
+    }
+    
     user.gameCollection.pull(req.params.itemId);
     await user.save();
     

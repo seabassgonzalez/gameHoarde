@@ -3,7 +3,12 @@
     "allow": [
       "Bash(node:*)",
       "Bash(find:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm test)",
+      "Bash(npm test:*)",
+      "Bash(rm:*)",
+      "Bash(npm start)",
+      "Bash(PORT=3001 npm start)"
     ],
     "deny": []
   }
