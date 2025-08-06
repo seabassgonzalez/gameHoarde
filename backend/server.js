@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 const allowedOrigins = process.env.NODE_ENV === 'production' 
-  ? [process.env.FRONTEND_URL || 'https://your-app.onrender.com']
+  ? [process.env.FRONTEND_URL || 'https://gamehoarde-1.onrender.com']
   : ['http://localhost:3000', 'http://localhost:3001'];
 
 app.use(cors({
@@ -23,12 +23,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gamehorde', {
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamehorde';
+console.log('Attempting to connect to MongoDB...');
+
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+.then(() => {
+  console.log('MongoDB connected successfully');
+})
+.catch(err => {
+  console.error('MongoDB connection error:', err);
+  console.error('MongoDB URI:', mongoUri.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@'));
+});
 
 // Routes
 app.use('/api/games', require('./routes/games'));
@@ -48,10 +56,27 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    environment: process.env.NODE_ENV,
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send({ error: 'Something went wrong!' });
+  console.error('Error:', err.message);
+  console.error('Stack:', err.stack);
+  
+  res.status(err.status || 500).json({ 
+    error: process.env.NODE_ENV === 'production' 
+      ? 'Something went wrong!' 
+      : err.message,
+    details: process.env.NODE_ENV === 'production' ? undefined : err.stack
+  });
 });
 
 app.listen(PORT, () => {
