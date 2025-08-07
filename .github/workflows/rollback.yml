@@ -1,0 +1,59 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to rollback to (git tag or commit SHA)'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout specific version
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.inputs.version }}
+    
+    - name: Validate version
+      run: |
+        if ! git rev-parse --verify ${{ github.event.inputs.version }}; then
+          echo "Invalid version specified"
+          exit 1
+        fi
+    
+    - name: Create rollback tag
+      run: |
+        ROLLBACK_TAG="rollback-$(date +%Y%m%d-%H%M%S)"
+        git tag $ROLLBACK_TAG
+        echo "ROLLBACK_TAG=$ROLLBACK_TAG" >> $GITHUB_ENV
+    
+    - name: Deploy to Render
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+      run: |
+        curl -X POST "https://api.render.com/v1/services/${RENDER_SERVICE_ID}/deploys" \
+          -H "Authorization: Bearer ${RENDER_API_KEY}" \
+          -H "Content-Type: application/json" \
+          -d "{\"branch\": \"${{ github.event.inputs.version }}\"}"
+    
+    - name: Create rollback record
+      uses: actions/github-script@v6
+      with:
+        script: |
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: `Rollback to ${context.payload.inputs.version}`,
+            body: `Rollback executed at ${new Date().toISOString()}\n\nReason: Manual rollback\nVersion: ${context.payload.inputs.version}\nTriggered by: ${context.actor}`,
+            labels: ['rollback', 'deployment']
+          });
+    
+    - name: Notify team
+      run: |
+        # Send notification to Slack/Discord/Email
+        echo "Rollback completed to version ${{ github.event.inputs.version }}"
