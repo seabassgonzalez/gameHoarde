@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Box,
   Typography,
+  Grid,
   Card,
   CardContent,
   CardMedia,
@@ -13,7 +14,6 @@ import {
   Paper,
   IconButton,
 } from '@mui/material';
-import Grid from '@mui/material/Grid2';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
@@ -92,13 +92,13 @@ const MyCollection: React.FC = () => {
 
       {stats && (
         <Grid container spacing={2} sx={{ mb: 4, justifyContent: 'center' }}>
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid item xs={12} sm={6} md={3}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h4">{stats.totalGames}</Typography>
               <Typography color="text.secondary">Total Games</Typography>
             </Paper>
           </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid item xs={12} sm={6} md={3}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h4">${stats.totalValue.toFixed(2)}</Typography>
               <Typography color="text.secondary">Total Value</Typography>
@@ -117,7 +117,7 @@ const MyCollection: React.FC = () => {
       <TabPanel value={tabValue} index={0}>
         <Grid container spacing={3}>
           {userData?.gameCollection.map((item: any) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
+            <Grid item xs={12} sm={6} md={4} key={item._id}>
               <Card sx={{ position: 'relative' }}>
                 <CardMedia
                   component={Link}
@@ -178,7 +178,7 @@ const MyCollection: React.FC = () => {
       <TabPanel value={tabValue} index={1}>
         <Grid container spacing={3}>
           {userData?.wishlist.map((item: any) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item._id}>
+            <Grid item xs={12} sm={6} md={4} key={item._id}>
               <Card sx={{ position: 'relative' }}>
                 <CardMedia
                   component={Link}
