@@ -26,13 +26,30 @@ router.get('/profile/:username', async (req, res) => {
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId)
-      .select('-password')
-      .populate('gameCollection.game')
-      .populate('wishlist.game');
+      .select('-password');
 
-    res.json(user);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Return basic user info without populating references
+    const userResponse = {
+      id: user._id,
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      profile: user.profile,
+      gameCollection: user.gameCollection || [],
+      wishlist: user.wishlist || [],
+      reputation: user.reputation,
+      isActive: user.isActive,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    };
+
+    res.json(userResponse);
   } catch (error) {
-    console.error(error);
+    console.error('Error in /users/me:', error);
     res.status(500).json({ error: 'Server error' });
   }
 });

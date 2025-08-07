@@ -31,31 +31,50 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (token) {
-      authService.getMe()
-        .then(userData => setUser(userData))
-        .catch(() => {
+    const checkAuth = async () => {
+      if (token) {
+        try {
+          console.log('Checking auth with token:', token);
+          const userData = await authService.getMe();
+          console.log('User data received:', userData);
+          setUser(userData);
+        } catch (error) {
+          console.error('Auth check failed:', error);
           localStorage.removeItem('token');
           setToken(null);
-        })
-        .finally(() => setIsLoading(false));
-    } else {
+          setUser(null);
+        }
+      }
       setIsLoading(false);
-    }
+    };
+    
+    checkAuth();
   }, [token]);
 
   const login = async (username: string, password: string) => {
-    const response = await authService.login(username, password);
-    localStorage.setItem('token', response.token);
-    setToken(response.token);
-    setUser(response.user);
+    try {
+      const response = await authService.login(username, password);
+      console.log('Login response:', response);
+      localStorage.setItem('token', response.token);
+      setToken(response.token);
+      setUser(response.user);
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
   };
 
   const register = async (username: string, email: string, password: string) => {
-    const response = await authService.register(username, email, password);
-    localStorage.setItem('token', response.token);
-    setToken(response.token);
-    setUser(response.user);
+    try {
+      const response = await authService.register(username, email, password);
+      console.log('Register response:', response);
+      localStorage.setItem('token', response.token);
+      setToken(response.token);
+      setUser(response.user);
+    } catch (error) {
+      console.error('Register error:', error);
+      throw error;
+    }
   };
 
   const logout = () => {

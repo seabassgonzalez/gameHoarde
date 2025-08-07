@@ -23,6 +23,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  
+  console.log('Layout render - user:', user);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -81,7 +83,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     color="inherit"
                   >
                     <Avatar sx={{ width: 32, height: 32 }}>
-                      {user.username[0].toUpperCase()}
+                      {user.username?.[0]?.toUpperCase() || 'U'}
                     </Avatar>
                   </IconButton>
                   <Menu
@@ -99,7 +101,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem component={Link} to={`/user/${user.username}`} onClick={handleClose}>
+                    <MenuItem component={Link} to={`/user/${user.username || ''}`} onClick={handleClose}>
                       Profile
                     </MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
