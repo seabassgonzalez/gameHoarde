@@ -3,7 +3,7 @@ FROM node:18-alpine AS frontend-build
 
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
-COPY frontend/.npmrc ./
+COPY frontend/.npmrc* ./
 RUN npm ci --legacy-peer-deps
 COPY frontend/ ./
 RUN npm run build
@@ -12,18 +12,18 @@ FROM node:18-alpine AS backend-build
 
 WORKDIR /app/backend
 COPY backend/package*.json ./
-COPY backend/.npmrc ./
+COPY backend/.npmrc* ./
 RUN npm ci
 
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package.json and .npmrc
-COPY package.json ./
-COPY .npmrc ./
+# Install production dependencies at root level for npm start command
+COPY package*.json ./
+COPY .npmrc* ./
 
-# Copy backend
+# Copy backend with node_modules
 COPY --from=backend-build /app/backend/node_modules ./backend/node_modules
 COPY backend/ ./backend/
 
@@ -32,6 +32,9 @@ COPY --from=frontend-build /app/frontend/build ./frontend/build
 
 # Create uploads directory
 RUN mkdir -p backend/uploads/games
+
+# Set environment
+ENV NODE_ENV=production
 
 EXPOSE 5000
 
