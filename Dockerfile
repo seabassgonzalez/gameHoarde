@@ -1,5 +1,5 @@
 # Multi-stage build for production
-FROM node:18-alpine AS frontend-build
+FROM node:20-alpine AS frontend-build
 
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
@@ -8,14 +8,14 @@ RUN npm ci --legacy-peer-deps
 COPY frontend/ ./
 RUN npm run build
 
-FROM node:18-alpine AS backend-build
+FROM node:20-alpine AS backend-build
 
 WORKDIR /app/backend
 COPY backend/package*.json ./
 COPY backend/.npmrc* ./
 RUN npm ci
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
