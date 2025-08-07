@@ -1,9 +1,9 @@
 services:
   - type: web
     name: gamehorde
-    runtime: node
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    env: node
+    buildCommand: "./scripts/build.sh"
+    startCommand: "node backend/server.js"
     envVars:
       - key: NODE_ENV
         value: production
