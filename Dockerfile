@@ -2,10 +2,12 @@
 FROM node:20-alpine AS frontend-build
 
 WORKDIR /app/frontend
-COPY frontend/package*.json ./
-COPY frontend/.npmrc* ./
-RUN npm ci --legacy-peer-deps
+# Copy all frontend files first
 COPY frontend/ ./
+# Install dependencies
+RUN npm ci --legacy-peer-deps
+# Build the frontend with increased memory
+ENV NODE_OPTIONS=--max_old_space_size=4096
 RUN npm run build
 
 FROM node:20-alpine AS backend-build
