@@ -73,12 +73,14 @@ router.post('/populate-marketplace', authMiddleware, async (req, res) => {
           completeness: complete,
           price: Math.round(basePrice),
           description: `${desc}\n\n${game.title} for ${game.platform} in ${condition.toLowerCase()} condition.`,
-          images: game.coverImage ? [game.coverImage] : [],
-          status: 'active',
-          viewCount: Math.floor(Math.random() * 200),
-          location: 'United States',
-          shippingAvailable: Math.random() > 0.2,
-          localPickupAvailable: Math.random() > 0.4
+          photos: game.coverImage ? [game.coverImage] : [],
+          status: 'Active',
+          views: Math.floor(Math.random() * 200),
+          shipping: {
+            price: Math.random() > 0.5 ? Math.round(Math.random() * 10 + 5) : 0,
+            methods: ['USPS Priority', 'UPS Ground'],
+            estimatedDays: '3-5 business days'
+          }
         });
         
         await listing.save();
@@ -123,10 +125,10 @@ router.delete('/clear-marketplace', authMiddleware, async (req, res) => {
 router.get('/marketplace-stats', authMiddleware, async (req, res) => {
   try {
     const totalListings = await MarketplaceListing.countDocuments();
-    const activeListings = await MarketplaceListing.countDocuments({ status: 'active' });
-    const soldListings = await MarketplaceListing.countDocuments({ status: 'sold' });
+    const activeListings = await MarketplaceListing.countDocuments({ status: 'Active' });
+    const soldListings = await MarketplaceListing.countDocuments({ status: 'Sold' });
     const avgPrice = await MarketplaceListing.aggregate([
-      { $match: { status: 'active' } },
+      { $match: { status: 'Active' } },
       { $group: { _id: null, avgPrice: { $avg: '$price' } } }
     ]);
     
