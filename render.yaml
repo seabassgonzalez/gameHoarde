@@ -2,7 +2,7 @@ services:
   - type: web
     name: gamehorde
     runtime: node
-    buildCommand: npm run install-all && npm run build
+    buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
@@ -12,4 +12,6 @@ services:
       - key: JWT_SECRET
         sync: false
       - key: FRONTEND_URL
+        sync: false
+      - key: RAWG_API_KEY
         sync: false

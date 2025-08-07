@@ -4,8 +4,8 @@
   "description": "GameHorde - Video Game Collection Management",
   "scripts": {
     "start": "node backend/server.js",
-    "build": "cd frontend && npm install && npm run build",
-    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm ci --legacy-peer-deps && npm run build",
+    "install": "cd backend && npm ci && cd ../frontend && npm ci --legacy-peer-deps",
     "dev": "cd backend && npm run dev"
   },
   "engines": {

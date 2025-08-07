@@ -1,2 +1,37 @@
 # claude settings
 .claude
+
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production build
+frontend/build/
+build/
+dist/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+*.lcov
+
+# Temporary files
+*.tmp
+*.temp
