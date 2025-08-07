@@ -11,7 +11,8 @@
       "Bash(PORT=3001 npm start)",
       "Bash(ls:*)",
       "WebFetch(domain:render.com)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }

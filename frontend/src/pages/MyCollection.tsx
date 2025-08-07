@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {
   Box,
   Typography,
-  Grid,
   Card,
   CardContent,
   CardMedia,
@@ -91,20 +90,20 @@ const MyCollection: React.FC = () => {
       </Typography>
 
       {stats && (
-        <Grid container spacing={2} sx={{ mb: 4, justifyContent: 'center' }}>
-          <Grid item xs={12} sm={6} md={3}>
+        <Box sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Box sx={{ minWidth: 200 }}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h4">{stats.totalGames}</Typography>
               <Typography color="text.secondary">Total Games</Typography>
             </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          </Box>
+          <Box sx={{ minWidth: 200 }}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h4">${stats.totalValue.toFixed(2)}</Typography>
               <Typography color="text.secondary">Total Value</Typography>
             </Paper>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       )}
 
       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
@@ -115,9 +114,9 @@ const MyCollection: React.FC = () => {
       </Box>
 
       <TabPanel value={tabValue} index={0}>
-        <Grid container spacing={3}>
+        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
           {userData?.gameCollection.map((item: any) => (
-            <Grid item xs={12} sm={6} md={4} key={item._id}>
+            <Box key={item._id} sx={{ flex: '1 1 300px', maxWidth: { xs: '100%', sm: '48%', md: '31%' } }}>
               <Card sx={{ position: 'relative' }}>
                 <CardMedia
                   component={Link}
@@ -170,15 +169,15 @@ const MyCollection: React.FC = () => {
                   </IconButton>
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </TabPanel>
 
       <TabPanel value={tabValue} index={1}>
-        <Grid container spacing={3}>
+        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
           {userData?.wishlist.map((item: any) => (
-            <Grid item xs={12} sm={6} md={4} key={item._id}>
+            <Box key={item._id} sx={{ flex: '1 1 300px', maxWidth: { xs: '100%', sm: '48%', md: '31%' } }}>
               <Card sx={{ position: 'relative' }}>
                 <CardMedia
                   component={Link}
@@ -237,9 +236,9 @@ const MyCollection: React.FC = () => {
                   </IconButton>
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </TabPanel>
     </Box>
   );

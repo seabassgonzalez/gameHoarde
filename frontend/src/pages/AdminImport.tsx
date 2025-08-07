@@ -9,8 +9,6 @@ import {
   Alert,
   CircularProgress,
   Container,
-  Divider,
-  Grid,
   Paper,
 } from '@mui/material';
 import { api } from '../services/api';
@@ -29,15 +27,13 @@ const AdminImport: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // For now, any logged-in user can import. In production, add admin check
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
-
   useEffect(() => {
-    fetchStats();
-  }, []);
+    if (!user) {
+      navigate('/login');
+    } else {
+      fetchStats();
+    }
+  }, [user, navigate]);
 
   const fetchStats = async () => {
     try {
@@ -130,6 +126,11 @@ const AdminImport: React.FC = () => {
     }
   };
 
+  // Early return if user is not logged in
+  if (!user) {
+    return null;
+  }
+
   return (
     <Container maxWidth="lg">
       <Box sx={{ mt: 4 }}>
@@ -142,43 +143,43 @@ const AdminImport: React.FC = () => {
             <Typography variant="h6" gutterBottom>
               Current Statistics
             </Typography>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
+            <Box sx={{ display: 'flex', gap: 3 }}>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="body2" color="text.secondary">
                   Total Listings
                 </Typography>
                 <Typography variant="h5">{stats.total}</Typography>
-              </Grid>
-              <Grid item xs={3}>
+              </Box>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="body2" color="text.secondary">
                   Active Listings
                 </Typography>
                 <Typography variant="h5" color="success.main">
                   {stats.active}
                 </Typography>
-              </Grid>
-              <Grid item xs={3}>
+              </Box>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="body2" color="text.secondary">
                   Sold Listings
                 </Typography>
                 <Typography variant="h5" color="info.main">
                   {stats.sold}
                 </Typography>
-              </Grid>
-              <Grid item xs={3}>
+              </Box>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="body2" color="text.secondary">
                   Average Price
                 </Typography>
                 <Typography variant="h5">
                   ${stats.averagePrice?.toFixed(2) || '0'}
                 </Typography>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Paper>
         )}
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
+        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+          <Box sx={{ flex: 1, minWidth: 300 }}>
             <Typography variant="h5" gutterBottom sx={{ mt: 2 }}>
               Game Import
             </Typography>
@@ -239,9 +240,9 @@ const AdminImport: React.FC = () => {
                 />
               </CardContent>
             </Card>
-          </Grid>
+          </Box>
 
-          <Grid item xs={12} md={6}>
+          <Box sx={{ flex: 1, minWidth: 300 }}>
             <Typography variant="h5" gutterBottom sx={{ mt: 2 }}>
               Marketplace Tools
             </Typography>
@@ -296,8 +297,8 @@ const AdminImport: React.FC = () => {
                 </Button>
               </CardContent>
             </Card>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
 
         {result && (
           <Alert severity="success" sx={{ mt: 3 }}>

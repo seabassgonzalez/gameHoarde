@@ -1,43 +1,40 @@
-# Multi-stage build for production
+# Build stage for frontend
 FROM node:20-alpine AS frontend-build
-
+WORKDIR /app
+COPY frontend/package*.json frontend/
+COPY frontend/.npmrc frontend/
 WORKDIR /app/frontend
-# Copy all frontend files first
-COPY frontend/ ./
-# Install dependencies
 RUN npm ci --legacy-peer-deps
-# Build the frontend with increased memory
-ENV NODE_OPTIONS=--max_old_space_size=4096
+COPY frontend/ .
 RUN npm run build
 
+# Build stage for backend
 FROM node:20-alpine AS backend-build
-
+WORKDIR /app
+COPY backend/package*.json backend/
+COPY backend/.npmrc backend/
 WORKDIR /app/backend
-COPY backend/package*.json ./
-COPY backend/.npmrc* ./
 RUN npm ci
 
+# Production stage
 FROM node:20-alpine
-
 WORKDIR /app
 
-# Install production dependencies at root level for npm start command
-COPY package*.json ./
-COPY .npmrc* ./
+# Copy package files
+COPY package.json .
+COPY .npmrc* .
 
-# Copy backend with node_modules
-COPY --from=backend-build /app/backend/node_modules ./backend/node_modules
-COPY backend/ ./backend/
+# Copy backend
+COPY backend/ backend/
+COPY --from=backend-build /app/backend/node_modules backend/node_modules
 
 # Copy frontend build
-COPY --from=frontend-build /app/frontend/build ./frontend/build
+COPY --from=frontend-build /app/frontend/build frontend/build
 
-# Create uploads directory
+# Create necessary directories
 RUN mkdir -p backend/uploads/games
 
-# Set environment
 ENV NODE_ENV=production
-
 EXPOSE 5000
 
-CMD ["npm", "start"]
+CMD ["node", "backend/server.js"]
