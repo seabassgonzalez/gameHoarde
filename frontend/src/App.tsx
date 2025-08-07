@@ -15,6 +15,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AddGame from './pages/AddGame';
 import EditGame from './pages/EditGame';
+import AdminImport from './pages/AdminImport';
 import PrivateRoute from './components/PrivateRoute';
 
 const queryClient = new QueryClient();
@@ -81,6 +82,14 @@ function App() {
                   element={
                     <PrivateRoute>
                       <MyCollection />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/admin/import"
+                  element={
+                    <PrivateRoute>
+                      <AdminImport />
                     </PrivateRoute>
                   }
                 />
