@@ -55,6 +55,7 @@ app.use('/api/marketplace', require('./routes/marketplace'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/import', require('./routes/gameImport'));
 app.use('/api/upload', require('./routes/upload'));
+app.use('/api/admin', require('./routes/adminTools'));
 
 // Serve React app in production
 if (process.env.NODE_ENV === 'production') {
