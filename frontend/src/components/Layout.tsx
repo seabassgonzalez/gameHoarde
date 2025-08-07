@@ -72,9 +72,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <Button color="inherit" component={Link} to="/my-collection">
                     My Collection
                   </Button>
-                  <Button color="inherit" component={Link} to="/admin/import">
-                    Admin
-                  </Button>
+                  {user.username === 'seabassgonzalez' && (
+                    <Button color="inherit" component={Link} to="/admin/import">
+                      Admin
+                    </Button>
+                  )}
                 </>
               )}
               {user ? (

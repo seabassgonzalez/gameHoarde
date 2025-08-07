@@ -30,6 +30,8 @@ const AdminImport: React.FC = () => {
   useEffect(() => {
     if (!user) {
       navigate('/login');
+    } else if (user.username !== 'seabassgonzalez') {
+      navigate('/');
     } else {
       fetchStats();
     }
@@ -126,8 +128,8 @@ const AdminImport: React.FC = () => {
     }
   };
 
-  // Early return if user is not logged in
-  if (!user) {
+  // Early return if user is not logged in or not admin
+  if (!user || user.username !== 'seabassgonzalez') {
     return null;
   }
 
