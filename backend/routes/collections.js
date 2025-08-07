@@ -3,6 +3,38 @@ const router = express.Router();
 const User = require('../models/User');
 const authMiddleware = require('../middleware/auth');
 
+// Get full collection with populated games
+router.get('/my-collection', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId)
+      .select('-password')
+      .populate({
+        path: 'gameCollection.game',
+        select: 'title platform coverImage developer publisher releaseDate genres'
+      })
+      .populate({
+        path: 'wishlist.game',
+        select: 'title platform coverImage developer publisher releaseDate genres'
+      });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      profile: user.profile,
+      gameCollection: user.gameCollection,
+      wishlist: user.wishlist
+    });
+  } catch (error) {
+    console.error('Error fetching collection:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // Add game to collection
 router.post('/add', authMiddleware, async (req, res) => {
   try {

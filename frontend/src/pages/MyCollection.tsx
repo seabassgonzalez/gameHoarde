@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {
   Box,
   Typography,
-  Grid,
   Card,
   CardContent,
   CardMedia,
@@ -14,10 +13,12 @@ import {
   Paper,
   IconButton,
 } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
+import GameImage from '../components/GameImage';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,11 +41,12 @@ const MyCollection: React.FC = () => {
   const [tabValue, setTabValue] = useState(0);
 
   const { data: userData, isLoading } = useQuery({
-    queryKey: ['user', user?.username],
+    queryKey: ['user-collection', user?.username],
     queryFn: async () => {
-      const response = await api.get('/users/me');
+      const response = await api.get('/collections/my-collection');
       return response.data;
     },
+    enabled: !!user,
   });
 
   const { data: stats } = useQuery({
@@ -60,7 +62,7 @@ const MyCollection: React.FC = () => {
       return api.delete(`/collections/item/${itemId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', user?.username] });
+      queryClient.invalidateQueries({ queryKey: ['user-collection', user?.username] });
       queryClient.invalidateQueries({ queryKey: ['collection-stats'] });
     },
   });
@@ -70,7 +72,7 @@ const MyCollection: React.FC = () => {
       return api.delete(`/collections/wishlist/${itemId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', user?.username] });
+      queryClient.invalidateQueries({ queryKey: ['user-collection', user?.username] });
     },
   });
 
@@ -119,17 +121,17 @@ const MyCollection: React.FC = () => {
               <Card sx={{ position: 'relative' }}>
                 <CardMedia
                   component={Link}
-                  to={`/games/${item.game._id}`}
+                  to={`/games/${item.game?._id || ''}`}
                   sx={{
                     display: 'block',
                     textDecoration: 'none',
                     '&:hover': { opacity: 0.9 }
                   }}
                 >
-                  <img
-                    src={item.game.coverImage || '/placeholder-game.png'}
-                    alt={item.game.title}
-                    style={{ width: '100%', height: 200, objectFit: 'cover' }}
+                  <GameImage
+                    src={item.game?.coverImage}
+                    alt={item.game?.title || 'Game'}
+                    height={200}
                   />
                 </CardMedia>
                 <CardContent>
@@ -138,17 +140,17 @@ const MyCollection: React.FC = () => {
                     noWrap 
                     gutterBottom
                     component={Link}
-                    to={`/games/${item.game._id}`}
+                    to={`/games/${item.game?._id || ''}`}
                     sx={{
                       textDecoration: 'none',
                       color: 'inherit',
                       '&:hover': { textDecoration: 'underline' }
                     }}
                   >
-                    {item.game.title}
+                    {item.game?.title || 'Unknown Game'}
                   </Typography>
                   <Box sx={{ mb: 1 }}>
-                    <Chip label={item.game.platform} size="small" color="primary" sx={{ mr: 1 }} />
+                    <Chip label={item.game?.platform || 'Unknown'} size="small" color="primary" sx={{ mr: 1 }} />
                     <Chip label={item.condition} size="small" variant="outlined" />
                   </Box>
                   <Typography variant="body2" color="text.secondary">
@@ -180,17 +182,17 @@ const MyCollection: React.FC = () => {
               <Card sx={{ position: 'relative' }}>
                 <CardMedia
                   component={Link}
-                  to={`/games/${item.game._id}`}
+                  to={`/games/${item.game?._id || ''}`}
                   sx={{
                     display: 'block',
                     textDecoration: 'none',
                     '&:hover': { opacity: 0.9 }
                   }}
                 >
-                  <img
-                    src={item.game.coverImage || '/placeholder-game.png'}
-                    alt={item.game.title}
-                    style={{ width: '100%', height: 200, objectFit: 'cover' }}
+                  <GameImage
+                    src={item.game?.coverImage}
+                    alt={item.game?.title || 'Game'}
+                    height={200}
                   />
                 </CardMedia>
                 <CardContent>
@@ -199,17 +201,17 @@ const MyCollection: React.FC = () => {
                     noWrap 
                     gutterBottom
                     component={Link}
-                    to={`/games/${item.game._id}`}
+                    to={`/games/${item.game?._id || ''}`}
                     sx={{
                       textDecoration: 'none',
                       color: 'inherit',
                       '&:hover': { textDecoration: 'underline' }
                     }}
                   >
-                    {item.game.title}
+                    {item.game?.title || 'Unknown Game'}
                   </Typography>
                   <Box sx={{ mb: 1 }}>
-                    <Chip label={item.game.platform} size="small" color="primary" sx={{ mr: 1 }} />
+                    <Chip label={item.game?.platform || 'Unknown'} size="small" color="primary" sx={{ mr: 1 }} />
                     <Chip 
                       label={`Priority: ${item.priority}`} 
                       size="small" 
