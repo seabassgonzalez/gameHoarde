@@ -4,6 +4,15 @@ const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config();
 
+// Check required environment variables
+const requiredEnvVars = ['JWT_SECRET'];
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingVars.length > 0) {
+  console.error(`Missing required environment variables: ${missingVars.join(', ')}`);
+  console.error('Please set these variables in your .env file or Render dashboard');
+}
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -62,7 +71,13 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     environment: process.env.NODE_ENV,
     database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    config: {
+      jwtSecret: process.env.JWT_SECRET ? 'configured' : 'MISSING',
+      mongoUri: process.env.MONGODB_URI ? 'configured' : 'MISSING',
+      frontendUrl: process.env.FRONTEND_URL || 'using default',
+      rawgApiKey: process.env.RAWG_API_KEY ? 'configured' : 'MISSING'
+    }
   });
 });
 
@@ -81,4 +96,8 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`MongoDB: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Not connected'}`);
+  console.log(`JWT_SECRET: ${process.env.JWT_SECRET ? 'Set' : 'NOT SET'}`);
+  console.log(`FRONTEND_URL: ${process.env.FRONTEND_URL || 'Not set (using default)'}`);
 });

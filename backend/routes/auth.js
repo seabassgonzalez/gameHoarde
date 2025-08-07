@@ -33,8 +33,14 @@ router.post('/register', [
 
     await user.save();
 
+    // Check if JWT_SECRET is available
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not defined in environment variables');
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
+
     const token = jwt.sign(
-      { userId: user._id, username: user.username },
+      { userId: user._id.toString(), username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -42,15 +48,19 @@ router.post('/register', [
     res.status(201).json({
       token,
       user: {
-        id: user._id,
+        id: user._id.toString(),
+        _id: user._id.toString(),
         username: user.username,
         email: user.email,
         profile: user.profile
       }
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Registration error:', error);
+    res.status(500).json({ 
+      error: 'Server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
@@ -80,8 +90,14 @@ router.post('/login', [
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
+    // Check if JWT_SECRET is available
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not defined in environment variables');
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
+
     const token = jwt.sign(
-      { userId: user._id, username: user.username },
+      { userId: user._id.toString(), username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -89,15 +105,19 @@ router.post('/login', [
     res.json({
       token,
       user: {
-        id: user._id,
+        id: user._id.toString(),
+        _id: user._id.toString(),
         username: user.username,
         email: user.email,
         profile: user.profile
       }
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Login error:', error);
+    res.status(500).json({ 
+      error: 'Server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
