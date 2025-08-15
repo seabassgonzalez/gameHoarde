@@ -67,7 +67,7 @@ const Home: React.FC = () => {
                       display: 'block',
                     }}
                   >
-                    WELCOME TO GAMEHORDE
+                    WELCOME TO GAMEHOARDE
                   </Typography>
                   <Typography
                     variant="h1"
@@ -472,7 +472,7 @@ const Home: React.FC = () => {
               {
                 name: 'Alex Chen',
                 role: 'Retro Game Collector',
-                content: 'GameHorde helped me catalog my 500+ game collection. The value tracking feature is amazing!',
+                content: 'GameHoarde helped me catalog my 500+ game collection. The value tracking feature is amazing!',
                 rating: 5,
                 avatar: 'A',
               },
@@ -543,7 +543,7 @@ const Home: React.FC = () => {
               Ready to Start Your Collection?
             </Typography>
             <Typography variant="h5" sx={{ mb: 5, color: alpha(theme.palette.common.white, 0.9) }}>
-              Join thousands of collectors managing their game libraries with GameHorde
+              Join thousands of collectors managing their game libraries with GameHoarde
             </Typography>
             <Button
               variant="contained"

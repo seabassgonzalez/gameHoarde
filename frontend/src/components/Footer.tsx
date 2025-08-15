@@ -51,10 +51,10 @@ const Footer: React.FC = () => {
   };
 
   const socialLinks = [
-    { icon: <TwitterIcon />, url: 'https://twitter.com/gamehorde', label: 'Twitter' },
-    { icon: <FacebookIcon />, url: 'https://facebook.com/gamehorde', label: 'Facebook' },
-    { icon: <InstagramIcon />, url: 'https://instagram.com/gamehorde', label: 'Instagram' },
-    { icon: <YouTubeIcon />, url: 'https://youtube.com/gamehorde', label: 'YouTube' },
+    { icon: <TwitterIcon />, url: 'https://twitter.com/gamehoarde', label: 'Twitter' },
+    { icon: <FacebookIcon />, url: 'https://facebook.com/gamehoarde', label: 'Facebook' },
+    { icon: <InstagramIcon />, url: 'https://instagram.com/gamehoarde', label: 'Instagram' },
+    { icon: <YouTubeIcon />, url: 'https://youtube.com/gamehoarde', label: 'YouTube' },
   ];
 
   return (
@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
               <GamesIcon sx={{ fontSize: 32, color: theme.palette.primary.main }} />
               <Typography variant="h5" fontWeight="bold">
-                GameHorde
+                GameHoarde
               </Typography>
             </Stack>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -220,11 +220,11 @@ const Footer: React.FC = () => {
           spacing={2}
         >
           <Typography variant="body2" color="text.secondary">
-            © {currentYear} GameHorde. All rights reserved.
+            © {currentYear} GameHoarde. All rights reserved.
           </Typography>
           <Stack direction="row" spacing={2} alignItems="center">
             <IconButton
-              href="mailto:support@gamehorde.com"
+              href="mailto:support@gamehoarde.com"
               size="small"
               sx={{
                 color: theme.palette.text.secondary,
@@ -236,7 +236,7 @@ const Footer: React.FC = () => {
               <EmailIcon fontSize="small" />
             </IconButton>
             <Typography variant="body2" color="text.secondary">
-              support@gamehorde.com
+              support@gamehoarde.com
             </Typography>
           </Stack>
         </Stack>

@@ -26,7 +26,7 @@ describe('Layout Component', () => {
       </Layout>
     );
 
-    expect(screen.getByText('GameHorde')).toBeInTheDocument();
+    expect(screen.getByText('GameHoarde')).toBeInTheDocument();
     expect(screen.getByText('Games')).toBeInTheDocument();
     expect(screen.getByText('Marketplace')).toBeInTheDocument();
   });
@@ -80,6 +80,6 @@ describe('Layout Component', () => {
       </Layout>
     );
 
-    expect(screen.getByText(/© 2024 GameHorde/)).toBeInTheDocument();
+    expect(screen.getByText(/© 2024 GameHoarde/)).toBeInTheDocument();
   });
 });

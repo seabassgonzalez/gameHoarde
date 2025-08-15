@@ -16,7 +16,9 @@
       "WebFetch(domain:preview.colorlib.com)",
       "Bash(kill:*)",
       "Bash(curl:*)",
-      "Bash(PORT=3000 npm start)"
+      "Bash(PORT=3000 npm start)",
+      "Bash(sed:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

@@ -74,7 +74,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               }}
             >
               <GamesIcon sx={{ fontSize: 32, color: 'primary.main' }} />
-              GameHorde
+              GameHoarde
             </Typography>
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
               <Button 
