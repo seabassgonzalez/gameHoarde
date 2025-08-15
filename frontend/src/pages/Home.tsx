@@ -9,301 +9,325 @@ import {
   Button,
   Container,
   Paper,
-  Chip,
   Avatar,
   Stack,
   useTheme,
   alpha,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  IconButton,
+  Fade,
 } from '@mui/material';
 import {
   Games as GamesIcon,
   Store as StoreIcon,
   Collections as CollectionsIcon,
   TrendingUp as TrendingUpIcon,
-  People as PeopleIcon,
   Shield as ShieldIcon,
   Search as SearchIcon,
   Star as StarIcon,
+  PlayArrow as PlayArrowIcon,
   CheckCircle as CheckCircleIcon,
-  ArrowForward as ArrowForwardIcon,
-  ExpandMore as ExpandMoreIcon,
+  ArrowDownward as ArrowDownwardIcon,
 } from '@mui/icons-material';
 
 const Home: React.FC = () => {
   const theme = useTheme();
 
-  const features = [
-    {
-      icon: <GamesIcon sx={{ fontSize: 48 }} />,
-      title: 'Comprehensive Database',
-      description: 'Access detailed information for over 50,000 games across all platforms',
-      color: theme.palette.primary.main,
-    },
-    {
-      icon: <CollectionsIcon sx={{ fontSize: 48 }} />,
-      title: 'Collection Management',
-      description: 'Track condition, completeness, purchase price, and organize your library',
-      color: theme.palette.secondary.main,
-    },
-    {
-      icon: <StoreIcon sx={{ fontSize: 48 }} />,
-      title: 'Marketplace',
-      description: 'Buy, sell, and trade with verified collectors in a secure environment',
-      color: theme.palette.success.main,
-    },
-    {
-      icon: <TrendingUpIcon sx={{ fontSize: 48 }} />,
-      title: 'Value Tracking',
-      description: 'Monitor your collection value with real-time market data',
-      color: theme.palette.warning.main,
-    },
-    {
-      icon: <SearchIcon sx={{ fontSize: 48 }} />,
-      title: 'Advanced Search',
-      description: 'Find games by platform, genre, developer, year, and more',
-      color: theme.palette.info.main,
-    },
-    {
-      icon: <ShieldIcon sx={{ fontSize: 48 }} />,
-      title: 'Secure & Trusted',
-      description: 'Safe transactions with user ratings and verified profiles',
-      color: theme.palette.error.main,
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: 'Alex Chen',
-      avatar: 'A',
-      role: 'Retro Game Collector',
-      content: 'GameHorde helped me catalog my 500+ game collection. The value tracking feature is amazing!',
-      rating: 5,
-    },
-    {
-      name: 'Sarah Johnson',
-      avatar: 'S',
-      role: 'PlayStation Enthusiast',
-      content: 'I found rare PS1 games I\'ve been searching for years. The marketplace is a game-changer!',
-      rating: 5,
-    },
-    {
-      name: 'Mike Williams',
-      avatar: 'M',
-      role: 'Nintendo Collector',
-      content: 'The condition grading system is perfect. I know exactly what I\'m buying and selling.',
-      rating: 5,
-    },
-  ];
-
-  const stats = [
-    { value: '50K+', label: 'Games Listed' },
-    { value: '10K+', label: 'Active Collectors' },
-    { value: '$2M+', label: 'Total Sales' },
-    { value: '4.8', label: 'User Rating' },
-  ];
-
-  const platforms = [
-    'PlayStation', 'Xbox', 'Nintendo', 'PC', 'Sega', 'Atari', 
-    'Neo Geo', 'TurboGrafx', 'Game Boy', 'PSP', 'PS Vita', '3DS'
-  ];
-
-  const faqs = [
-    {
-      question: 'How much does GameHorde cost?',
-      answer: 'GameHorde is free to join! Create your account, catalog your collection, and browse the marketplace at no cost. We only charge a small fee on successful marketplace transactions.'
-    },
-    {
-      question: 'How do I add games to my collection?',
-      answer: 'Simply search for a game using our comprehensive database, select the correct edition/platform, and add it to your collection. You can specify condition, completeness, purchase price, and add personal notes.'
-    },
-    {
-      question: 'Is the marketplace safe for buying and selling?',
-      answer: 'Yes! We use secure payment processing, hold funds in escrow until delivery is confirmed, and have a rating system for buyers and sellers. All users are verified to ensure a safe trading environment.'
-    },
-    {
-      question: 'Can I track the value of my collection?',
-      answer: 'Absolutely! GameHorde provides real-time market valuations based on recent sales data. You can see your collection\'s total value, individual game values, and track changes over time.'
-    },
-    {
-      question: 'What platforms and games are supported?',
-      answer: 'We support all major gaming platforms from retro consoles to modern systems. Our database includes over 50,000 games and is constantly growing. If a game is missing, you can request to add it.'
-    },
-    {
-      question: 'Can I export my collection data?',
-      answer: 'Yes, you can export your entire collection as a CSV file at any time. Your data is always yours, and we make it easy to download for backup or use in other applications.'
-    }
-  ];
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <>
+    <Box sx={{ bgcolor: 'background.default', overflow: 'hidden' }}>
       {/* Hero Section */}
       <Box
+        id="hero"
         sx={{
-          background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)} 0%, ${alpha(theme.palette.secondary.main, 0.1)} 100%)`,
-          pt: 8,
-          pb: 10,
-          mt: -3,
-          mb: 8,
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          position: 'relative',
+          background: `radial-gradient(circle at 20% 50%, ${alpha(theme.palette.primary.dark, 0.3)} 0%, transparent 50%),
+                       radial-gradient(circle at 80% 80%, ${alpha(theme.palette.secondary.dark, 0.2)} 0%, transparent 50%),
+                       ${theme.palette.background.default}`,
         }}
       >
         <Container maxWidth="lg">
-          <Grid container spacing={4} alignItems="center">
+          <Grid container spacing={6} alignItems="center">
             <Grid size={{ xs: 12, md: 6 }}>
-              <Typography 
-                variant="h1" 
-                component="h1" 
-                gutterBottom
-                sx={{ 
-                  fontSize: { xs: '2.5rem', md: '3.5rem' },
-                  fontWeight: 700,
-                  background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
-                Your Ultimate Game Collection Hub
-              </Typography>
-              <Typography variant="h5" color="text.secondary" paragraph sx={{ mb: 4 }}>
-                Catalog, value, and trade your video game collection with thousands of collectors worldwide
-              </Typography>
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 4 }}>
-                <Button
-                  variant="contained"
-                  size="medium"
-                  component={Link}
-                  to="/register"
-                  endIcon={<ArrowForwardIcon />}
-                  sx={{ 
-                    py: 1.5,
-                    px: 4,
-                    fontSize: '1.1rem',
-                    boxShadow: 4,
-                  }}
-                >
-                  Start Free Today
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  component={Link}
-                  to="/games"
-                  sx={{ 
-                    py: 1.5,
-                    px: 4,
-                    fontSize: '1.1rem',
-                  }}
-                >
-                  Explore Games
-                </Button>
-              </Stack>
-              <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
-                <Chip icon={<CheckCircleIcon />} label="Free to join" color="success" />
-                <Chip icon={<CheckCircleIcon />} label="No credit card required" color="success" />
-                <Chip icon={<CheckCircleIcon />} label="Instant setup" color="success" />
-              </Stack>
+              <Fade in timeout={1000}>
+                <Box>
+                  <Typography
+                    variant="overline"
+                    sx={{
+                      color: 'primary.main',
+                      fontWeight: 600,
+                      letterSpacing: 3,
+                      mb: 2,
+                      display: 'block',
+                    }}
+                  >
+                    WELCOME TO GAMEHORDE
+                  </Typography>
+                  <Typography
+                    variant="h1"
+                    sx={{
+                      fontSize: { xs: '3rem', md: '4.5rem' },
+                      fontWeight: 800,
+                      lineHeight: 1.1,
+                      mb: 3,
+                      background: `linear-gradient(135deg, ${theme.palette.common.white} 0%, ${alpha(theme.palette.common.white, 0.8)} 100%)`,
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                    }}
+                  >
+                    Your Ultimate
+                    <Box component="span" sx={{ color: 'primary.main', WebkitTextFillColor: theme.palette.primary.main }}>
+                      {' '}Game Collection{' '}
+                    </Box>
+                    Hub
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: 'text.secondary',
+                      mb: 4,
+                      lineHeight: 1.6,
+                      fontWeight: 400,
+                    }}
+                  >
+                    Catalog, value, and trade your video game collection with thousands of collectors worldwide.
+                  </Typography>
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 4 }}>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      component={Link}
+                      to="/register"
+                      startIcon={<PlayArrowIcon />}
+                      sx={{
+                        py: 2,
+                        px: 4,
+                        fontSize: '1.1rem',
+                        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+                        '&:hover': {
+                          background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+                          transform: 'translateY(-2px)',
+                        },
+                      }}
+                    >
+                      Get Started Free
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      component={Link}
+                      to="/marketplace"
+                      sx={{
+                        py: 2,
+                        px: 4,
+                        fontSize: '1.1rem',
+                        borderColor: alpha(theme.palette.common.white, 0.3),
+                        color: 'text.primary',
+                        '&:hover': {
+                          borderColor: 'primary.main',
+                          bgcolor: alpha(theme.palette.primary.main, 0.1),
+                        },
+                      }}
+                    >
+                      Browse Marketplace
+                    </Button>
+                  </Stack>
+                  <Stack direction="row" spacing={2} sx={{ opacity: 0.8 }}>
+                    <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <CheckCircleIcon fontSize="small" color="success" />
+                      No credit card required
+                    </Typography>
+                    <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <CheckCircleIcon fontSize="small" color="success" />
+                      Free forever plan
+                    </Typography>
+                  </Stack>
+                </Box>
+              </Fade>
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <Box
-                sx={{
-                  position: 'relative',
-                  height: 400,
-                  background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                  borderRadius: 4,
-                  overflow: 'hidden',
-                  boxShadow: 10,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Box sx={{ position: 'relative', zIndex: 1 }}>
-                  <GamesIcon sx={{ fontSize: 200, color: 'white', opacity: 0.3 }} />
-                </Box>
-                <Box sx={{ position: 'absolute', top: 20, right: 20 }}>
-                  <Paper sx={{ p: 2, background: alpha(theme.palette.background.paper, 0.9) }}>
-                    <Typography variant="h4" color="primary">50K+</Typography>
-                    <Typography variant="body2">Games Available</Typography>
+              <Fade in timeout={1500}>
+                <Box
+                  sx={{
+                    position: 'relative',
+                    height: { xs: 300, md: 500 },
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.2)} 0%, ${alpha(theme.palette.secondary.main, 0.2)} 100%)`,
+                      borderRadius: 4,
+                      filter: 'blur(40px)',
+                    }}
+                  />
+                  <Box sx={{ position: 'relative', zIndex: 1 }}>
+                    <GamesIcon sx={{ fontSize: { xs: 200, md: 300 }, color: alpha(theme.palette.common.white, 0.1) }} />
+                  </Box>
+                  <Paper
+                    sx={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 20,
+                      p: 3,
+                      bgcolor: alpha(theme.palette.background.paper, 0.9),
+                      backdropFilter: 'blur(10px)',
+                      border: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
+                    }}
+                  >
+                    <Typography variant="h3" color="primary" fontWeight="bold">50K+</Typography>
+                    <Typography variant="body1" color="text.secondary">Games Listed</Typography>
+                  </Paper>
+                  <Paper
+                    sx={{
+                      position: 'absolute',
+                      bottom: 40,
+                      left: 20,
+                      p: 3,
+                      bgcolor: alpha(theme.palette.background.paper, 0.9),
+                      backdropFilter: 'blur(10px)',
+                      border: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
+                    }}
+                  >
+                    <Typography variant="h3" color="secondary" fontWeight="bold">10K+</Typography>
+                    <Typography variant="body1" color="text.secondary">Active Users</Typography>
                   </Paper>
                 </Box>
-                <Box sx={{ position: 'absolute', bottom: 20, left: 20 }}>
-                  <Paper sx={{ p: 2, background: alpha(theme.palette.background.paper, 0.9) }}>
-                    <Typography variant="h4" color="secondary">10K+</Typography>
-                    <Typography variant="body2">Active Collectors</Typography>
-                  </Paper>
-                </Box>
-              </Box>
+              </Fade>
             </Grid>
           </Grid>
         </Container>
+        <IconButton
+          onClick={() => scrollToSection('features')}
+          sx={{
+            position: 'absolute',
+            bottom: 40,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            color: 'text.secondary',
+            animation: 'bounce 2s infinite',
+            '@keyframes bounce': {
+              '0%, 20%, 50%, 80%, 100%': { transform: 'translateX(-50%) translateY(0)' },
+              '40%': { transform: 'translateX(-50%) translateY(-10px)' },
+              '60%': { transform: 'translateX(-50%) translateY(-5px)' },
+            },
+          }}
+        >
+          <ArrowDownwardIcon fontSize="large" />
+        </IconButton>
       </Box>
 
-      <Container maxWidth="lg">
-        {/* Stats Section */}
-        <Grid container spacing={3} sx={{ mb: 10 }}>
-          {stats.map((stat) => (
-            <Grid size={{ xs: 6, md: 3 }} key={stat.label}>
-              <Paper 
-                elevation={0} 
-                sx={{ 
-                  p: 3, 
-                  textAlign: 'center',
-                  background: alpha(theme.palette.primary.main, 0.05),
-                  borderRadius: 3,
-                }}
-              >
-                <Typography variant="h3" color="primary" gutterBottom>
-                  {stat.value}
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  {stat.label}
-                </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
+      {/* Features Section */}
+      <Box id="features" sx={{ py: 12, bgcolor: alpha(theme.palette.background.paper, 0.3) }}>
+        <Container maxWidth="lg">
+          <Box textAlign="center" mb={8}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: 'primary.main',
+                fontWeight: 600,
+                letterSpacing: 3,
+                mb: 2,
+                display: 'block',
+              }}
+            >
+              FEATURES
+            </Typography>
+            <Typography variant="h2" sx={{ mb: 3, fontWeight: 700 }}>
+              Everything You Need
+            </Typography>
+            <Typography variant="h5" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+              Powerful tools to manage, track, and trade your game collection
+            </Typography>
+          </Box>
 
-        {/* Features Section */}
-        <Box sx={{ mb: 10 }}>
-          <Typography variant="h3" align="center" gutterBottom sx={{ mb: 6 }}>
-            Everything You Need to Manage Your Collection
-          </Typography>
           <Grid container spacing={4}>
-            {features.map((feature, index) => (
-              <Grid size={{ xs: 12, md: 4 }} key={index}>
-                <Card 
-                  sx={{ 
+            {[
+              {
+                icon: <GamesIcon />,
+                title: 'Comprehensive Database',
+                description: 'Access detailed information for over 50,000 games across all platforms',
+                color: theme.palette.primary.main,
+              },
+              {
+                icon: <CollectionsIcon />,
+                title: 'Collection Management',
+                description: 'Track condition, completeness, purchase price, and organize your library',
+                color: theme.palette.secondary.main,
+              },
+              {
+                icon: <StoreIcon />,
+                title: 'Marketplace',
+                description: 'Buy, sell, and trade with verified collectors in a secure environment',
+                color: theme.palette.success.main,
+              },
+              {
+                icon: <TrendingUpIcon />,
+                title: 'Value Tracking',
+                description: 'Monitor your collection value with real-time market data',
+                color: theme.palette.warning.main,
+              },
+              {
+                icon: <SearchIcon />,
+                title: 'Advanced Search',
+                description: 'Find games by platform, genre, developer, year, and more',
+                color: theme.palette.info.main,
+              },
+              {
+                icon: <ShieldIcon />,
+                title: 'Secure & Trusted',
+                description: 'Safe transactions with user ratings and verified profiles',
+                color: theme.palette.error.main,
+              },
+            ].map((feature, index) => (
+              <Grid size={{ xs: 12, md: 6, lg: 4 }} key={index}>
+                <Card
+                  sx={{
                     height: '100%',
-                    transition: 'transform 0.2s',
+                    bgcolor: alpha(theme.palette.background.paper, 0.5),
+                    backdropFilter: 'blur(10px)',
+                    border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: 6,
-                    }
+                      transform: 'translateY(-8px)',
+                      bgcolor: alpha(theme.palette.background.paper, 0.8),
+                      borderColor: alpha(feature.color, 0.3),
+                      boxShadow: `0 20px 40px ${alpha(feature.color, 0.1)}`,
+                    },
                   }}
                 >
-                  <CardContent sx={{ textAlign: 'center', p: 4 }}>
+                  <CardContent sx={{ p: 4 }}>
                     <Box
                       sx={{
                         width: 80,
                         height: 80,
-                        margin: '0 auto 2rem',
-                        borderRadius: '50%',
-                        background: alpha(feature.color, 0.1),
+                        borderRadius: 3,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        mb: 3,
+                        background: `linear-gradient(135deg, ${alpha(feature.color, 0.1)} 0%, ${alpha(feature.color, 0.2)} 100%)`,
                         color: feature.color,
                       }}
                     >
-                      {feature.icon}
+                      {React.cloneElement(feature.icon, { sx: { fontSize: 40 } })}
                     </Box>
-                    <Typography variant="h5" gutterBottom>
+                    <Typography variant="h5" gutterBottom fontWeight="600">
                       {feature.title}
                     </Typography>
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="body1" color="text.secondary" lineHeight={1.7}>
                       {feature.description}
                     </Typography>
                   </CardContent>
@@ -311,233 +335,239 @@ const Home: React.FC = () => {
               </Grid>
             ))}
           </Grid>
-        </Box>
+        </Container>
+      </Box>
 
-        {/* How It Works Section */}
-        <Box sx={{ mb: 10 }}>
-          <Typography variant="h3" align="center" gutterBottom sx={{ mb: 6 }}>
-            How It Works
-          </Typography>
+      {/* Stats Section */}
+      <Box sx={{ py: 12, position: 'relative' }}>
+        <Container maxWidth="lg">
           <Grid container spacing={4}>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Box
-                  sx={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: '50%',
-                    background: theme.palette.primary.main,
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 1rem',
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  1
+            {[
+              { value: '50,000+', label: 'Games in Database', icon: <GamesIcon /> },
+              { value: '10,000+', label: 'Active Collectors', icon: <CollectionsIcon /> },
+              { value: '$2M+', label: 'Total Trading Volume', icon: <TrendingUpIcon /> },
+              { value: '4.9/5', label: 'User Rating', icon: <StarIcon /> },
+            ].map((stat, index) => (
+              <Grid size={{ xs: 6, md: 3 }} key={index}>
+                <Box textAlign="center">
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 60,
+                      height: 60,
+                      borderRadius: 2,
+                      bgcolor: alpha(theme.palette.primary.main, 0.1),
+                      color: 'primary.main',
+                      mb: 2,
+                    }}
+                  >
+                    {stat.icon}
+                  </Box>
+                  <Typography variant="h3" fontWeight="bold" gutterBottom>
+                    {stat.value}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {stat.label}
+                  </Typography>
                 </Box>
-                <Typography variant="h6" gutterBottom>
-                  Create Your Account
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  Sign up for free and set up your collector profile in minutes
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Box
-                  sx={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: '50%',
-                    background: theme.palette.primary.main,
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 1rem',
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  2
-                </Box>
-                <Typography variant="h6" gutterBottom>
-                  Add Your Games
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  Search our database and add games to your collection with condition details
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Box
-                  sx={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: '50%',
-                    background: theme.palette.primary.main,
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 1rem',
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  3
-                </Box>
-                <Typography variant="h6" gutterBottom>
-                  Connect & Trade
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  Browse the marketplace, make offers, and grow your collection
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-
-        {/* Platforms Section */}
-        <Box sx={{ mb: 10, textAlign: 'center' }}>
-          <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-            Supporting All Major Platforms
-          </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
-            {platforms.map((platform) => (
-              <Chip
-                key={platform}
-                label={platform}
-                size="medium"
-                sx={{ 
-                  fontSize: '1rem',
-                  py: 2.5,
-                  px: 1,
-                }}
-              />
+              </Grid>
             ))}
-          </Box>
-        </Box>
+          </Grid>
+        </Container>
+      </Box>
 
-        {/* Testimonials Section */}
-        <Box sx={{ mb: 10 }}>
-          <Typography variant="h3" align="center" gutterBottom sx={{ mb: 6 }}>
-            Loved by Collectors Worldwide
-          </Typography>
+      {/* How It Works Section */}
+      <Box sx={{ py: 12, bgcolor: alpha(theme.palette.background.paper, 0.3) }}>
+        <Container maxWidth="lg">
+          <Box textAlign="center" mb={8}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: 'primary.main',
+                fontWeight: 600,
+                letterSpacing: 3,
+                mb: 2,
+                display: 'block',
+              }}
+            >
+              HOW IT WORKS
+            </Typography>
+            <Typography variant="h2" sx={{ mb: 3, fontWeight: 700 }}>
+              Get Started in 3 Simple Steps
+            </Typography>
+          </Box>
+
           <Grid container spacing={4}>
-            {testimonials.map((testimonial, index) => (
+            {[
+              {
+                step: '01',
+                title: 'Create Your Account',
+                description: 'Sign up for free and set up your collector profile',
+              },
+              {
+                step: '02',
+                title: 'Build Your Collection',
+                description: 'Add games, track condition, and organize your library',
+              },
+              {
+                step: '03',
+                title: 'Start Trading',
+                description: 'Buy, sell, and trade with other verified collectors',
+              },
+            ].map((item, index) => (
               <Grid size={{ xs: 12, md: 4 }} key={index}>
-                <Card sx={{ height: '100%' }}>
+                <Box textAlign="center">
+                  <Typography
+                    variant="h1"
+                    sx={{
+                      fontSize: '5rem',
+                      fontWeight: 800,
+                      background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      mb: 2,
+                    }}
+                  >
+                    {item.step}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom fontWeight="600">
+                    {item.title}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {item.description}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Testimonials Section */}
+      <Box sx={{ py: 12 }}>
+        <Container maxWidth="lg">
+          <Box textAlign="center" mb={8}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: 'primary.main',
+                fontWeight: 600,
+                letterSpacing: 3,
+                mb: 2,
+                display: 'block',
+              }}
+            >
+              TESTIMONIALS
+            </Typography>
+            <Typography variant="h2" sx={{ mb: 3, fontWeight: 700 }}>
+              What Our Users Say
+            </Typography>
+          </Box>
+
+          <Grid container spacing={4}>
+            {[
+              {
+                name: 'Alex Chen',
+                role: 'Retro Game Collector',
+                content: 'GameHorde helped me catalog my 500+ game collection. The value tracking feature is amazing!',
+                rating: 5,
+                avatar: 'A',
+              },
+              {
+                name: 'Sarah Johnson',
+                role: 'PlayStation Enthusiast',
+                content: "I found rare PS1 games I've been searching for years. The marketplace is a game-changer!",
+                rating: 5,
+                avatar: 'S',
+              },
+              {
+                name: 'Mike Williams',
+                role: 'Nintendo Collector',
+                content: "The condition grading system is perfect. I know exactly what I'm buying and selling.",
+                rating: 5,
+                avatar: 'M',
+              },
+            ].map((testimonial, index) => (
+              <Grid size={{ xs: 12, md: 4 }} key={index}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    bgcolor: alpha(theme.palette.background.paper, 0.5),
+                    backdropFilter: 'blur(10px)',
+                    border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,
+                  }}
+                >
                   <CardContent sx={{ p: 4 }}>
-                    <Stack direction="row" spacing={0.5} sx={{ mb: 2 }}>
+                    <Box sx={{ display: 'flex', mb: 2 }}>
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <StarIcon key={i} sx={{ color: 'gold', fontSize: 20 }} />
+                        <StarIcon key={i} sx={{ color: 'warning.main', fontSize: 20 }} />
                       ))}
-                    </Stack>
-                    <Typography variant="body1" paragraph sx={{ fontStyle: 'italic' }}>
+                    </Box>
+                    <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.8 }}>
                       "{testimonial.content}"
                     </Typography>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                      <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                        {testimonial.avatar}
-                      </Avatar>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <Avatar sx={{ bgcolor: 'primary.main' }}>{testimonial.avatar}</Avatar>
                       <Box>
-                        <Typography variant="subtitle1" fontWeight="bold">
+                        <Typography variant="subtitle1" fontWeight="600">
                           {testimonial.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {testimonial.role}
                         </Typography>
                       </Box>
-                    </Stack>
+                    </Box>
                   </CardContent>
                 </Card>
               </Grid>
             ))}
           </Grid>
-        </Box>
+        </Container>
+      </Box>
 
-        {/* FAQ Section */}
-        <Box sx={{ mb: 10 }}>
-          <Typography variant="h3" align="center" gutterBottom sx={{ mb: 6 }}>
-            Frequently Asked Questions
-          </Typography>
-          <Grid container spacing={2} justifyContent="center">
-            <Grid size={{ xs: 12, md: 8 }}>
-              {faqs.map((faq, index) => (
-                <Accordion key={index} sx={{ mb: 1 }}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={`panel${index}-content`}
-                    id={`panel${index}-header`}
-                  >
-                    <Typography variant="h6">{faq.question}</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography variant="body1" color="text.secondary">
-                      {faq.answer}
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </Grid>
-          </Grid>
-        </Box>
-
-        {/* CTA Section */}
-        <Paper
-          sx={{
-            p: 6,
-            mb: 6,
-            textAlign: 'center',
-            background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)} 0%, ${alpha(theme.palette.secondary.main, 0.1)} 100%)`,
-            borderRadius: 4,
-          }}
-        >
-          <Typography variant="h3" gutterBottom>
-            Ready to Start Your Collection Journey?
-          </Typography>
-          <Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 4 }}>
-            Join thousands of collectors who trust GameHorde to manage their gaming treasures
-          </Typography>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
+      {/* CTA Section */}
+      <Box
+        sx={{
+          py: 12,
+          background: `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 0.8)} 0%, ${alpha(theme.palette.secondary.dark, 0.8)} 100%)`,
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <Container maxWidth="md">
+          <Box textAlign="center">
+            <Typography variant="h2" sx={{ mb: 3, fontWeight: 700 }}>
+              Ready to Start Your Collection?
+            </Typography>
+            <Typography variant="h5" sx={{ mb: 5, color: alpha(theme.palette.common.white, 0.9) }}>
+              Join thousands of collectors managing their game libraries with GameHorde
+            </Typography>
             <Button
               variant="contained"
               size="large"
               component={Link}
               to="/register"
-              endIcon={<PeopleIcon />}
-              sx={{ 
+              sx={{
                 py: 2,
-                px: 5,
+                px: 6,
                 fontSize: '1.2rem',
-                boxShadow: 4,
+                bgcolor: 'common.white',
+                color: 'primary.main',
+                '&:hover': {
+                  bgcolor: alpha(theme.palette.common.white, 0.9),
+                  transform: 'scale(1.05)',
+                },
               }}
             >
-              Join GameHorde Free
+              Get Started Free
             </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              component={Link}
-              to="/marketplace"
-              sx={{ 
-                py: 2,
-                px: 5,
-                fontSize: '1.2rem',
-              }}
-            >
-              Browse Marketplace
-            </Button>
-          </Stack>
-        </Paper>
-      </Container>
-    </>
+          </Box>
+        </Container>
+      </Box>
+    </Box>
   );
 };
 

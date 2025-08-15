@@ -9,7 +9,6 @@ import {
   Divider,
   useTheme,
   alpha,
-  Grid,
 } from '@mui/material';
 import {
   Twitter as TwitterIcon,
@@ -69,9 +68,13 @@ const Footer: React.FC = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          spacing={4}
+          justifyContent="space-between"
+        >
           {/* Brand Section */}
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 35%' } }}>
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
               <GamesIcon sx={{ fontSize: 32, color: theme.palette.primary.main }} />
               <Typography variant="h5" fontWeight="bold">
@@ -101,12 +104,13 @@ const Footer: React.FC = () => {
                 </IconButton>
               ))}
             </Stack>
-          </Grid>
+          </Box>
 
           {/* Links Sections */}
-          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
-            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-              Product
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4} sx={{ flex: 1 }}>
+            <Box sx={{ minWidth: 150 }}>
+              <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                Product
             </Typography>
             <Stack spacing={1}>
               {footerLinks.product.map((link) => (
@@ -127,9 +131,9 @@ const Footer: React.FC = () => {
                 </Typography>
               ))}
             </Stack>
-          </Grid>
+          </Box>
 
-          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
+          <Box sx={{ minWidth: 150 }}>
             <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
               Community
             </Typography>
@@ -152,9 +156,9 @@ const Footer: React.FC = () => {
                 </Typography>
               ))}
             </Stack>
-          </Grid>
+          </Box>
 
-          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
+          <Box sx={{ minWidth: 150 }}>
             <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
               Company
             </Typography>
@@ -177,9 +181,9 @@ const Footer: React.FC = () => {
                 </Typography>
               ))}
             </Stack>
-          </Grid>
+          </Box>
 
-          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
+          <Box sx={{ minWidth: 150 }}>
             <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
               Legal
             </Typography>
@@ -202,8 +206,9 @@ const Footer: React.FC = () => {
                 </Typography>
               ))}
             </Stack>
-          </Grid>
-        </Grid>
+          </Box>
+          </Stack>
+        </Stack>
 
         <Divider sx={{ my: 4 }} />
 

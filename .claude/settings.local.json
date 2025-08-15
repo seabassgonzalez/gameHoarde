@@ -12,7 +12,11 @@
       "Bash(ls:*)",
       "WebFetch(domain:render.com)",
       "Bash(chmod:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "WebFetch(domain:preview.colorlib.com)",
+      "Bash(kill:*)",
+      "Bash(curl:*)",
+      "Bash(PORT=3000 npm start)"
     ],
     "deny": []
   }

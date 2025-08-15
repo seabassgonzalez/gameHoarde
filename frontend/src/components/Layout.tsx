@@ -11,7 +11,10 @@ import {
   MenuItem,
   Avatar,
   Container,
+  useTheme,
+  alpha,
 } from '@mui/material';
+import { Games as GamesIcon } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import Footer from './Footer';
 
@@ -23,6 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const theme = useTheme();
   
   console.log('Layout render - user:', user);
 
@@ -42,9 +46,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <AppBar position="fixed">
+      <AppBar 
+        position="fixed" 
+        elevation={0}
+        sx={{ 
+          bgcolor: alpha(theme.palette.background.default, 0.9),
+          backdropFilter: 'blur(10px)',
+          borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,
+        }}
+      >
         <Container maxWidth="lg">
-          <Toolbar disableGutters>
+          <Toolbar disableGutters sx={{ py: 1 }}>
             <Typography 
               variant="h6" 
               noWrap 
@@ -56,24 +68,72 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 color: 'inherit',
                 display: 'flex',
                 alignItems: 'center',
+                fontWeight: 700,
+                fontSize: '1.5rem',
+                gap: 1,
               }}
             >
+              <GamesIcon sx={{ fontSize: 32, color: 'primary.main' }} />
               GameHorde
             </Typography>
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-              <Button color="inherit" component={Link} to="/games">
+              <Button 
+                component={Link} 
+                to="/games"
+                sx={{
+                  color: 'text.primary',
+                  fontWeight: 600,
+                  '&:hover': {
+                    color: 'primary.main',
+                    bgcolor: alpha(theme.palette.primary.main, 0.1),
+                  }
+                }}
+              >
                 Games
               </Button>
-              <Button color="inherit" component={Link} to="/marketplace">
+              <Button 
+                component={Link} 
+                to="/marketplace"
+                sx={{
+                  color: 'text.primary',
+                  fontWeight: 600,
+                  '&:hover': {
+                    color: 'primary.main',
+                    bgcolor: alpha(theme.palette.primary.main, 0.1),
+                  }
+                }}
+              >
                 Marketplace
               </Button>
               {user && (
                 <>
-                  <Button color="inherit" component={Link} to="/my-collection">
+                  <Button 
+                    component={Link} 
+                    to="/my-collection"
+                    sx={{
+                      color: 'text.primary',
+                      fontWeight: 600,
+                      '&:hover': {
+                        color: 'primary.main',
+                        bgcolor: alpha(theme.palette.primary.main, 0.1),
+                      }
+                    }}
+                  >
                     My Collection
                   </Button>
                   {user.username === 'seabassgonzalez' && (
-                    <Button color="inherit" component={Link} to="/admin/import">
+                    <Button 
+                      component={Link} 
+                      to="/admin/import"
+                      sx={{
+                        color: 'text.primary',
+                        fontWeight: 600,
+                        '&:hover': {
+                          color: 'primary.main',
+                          bgcolor: alpha(theme.palette.primary.main, 0.1),
+                        }
+                      }}
+                    >
                       Admin
                     </Button>
                   )}
@@ -116,10 +176,33 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </>
               ) : (
                 <>
-                  <Button color="inherit" component={Link} to="/login">
+                  <Button 
+                    component={Link} 
+                    to="/login"
+                    sx={{
+                      color: 'text.primary',
+                      fontWeight: 600,
+                      '&:hover': {
+                        color: 'primary.main',
+                        bgcolor: alpha(theme.palette.primary.main, 0.1),
+                      }
+                    }}
+                  >
                     Login
                   </Button>
-                  <Button color="inherit" component={Link} to="/register" variant="outlined" sx={{ ml: 1 }}>
+                  <Button 
+                    component={Link} 
+                    to="/register" 
+                    variant="contained"
+                    sx={{ 
+                      ml: 1,
+                      fontWeight: 600,
+                      background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+                      '&:hover': {
+                        background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+                      }
+                    }}
+                  >
                     Sign Up
                   </Button>
                 </>
@@ -135,15 +218,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
           width: '100%',
-          pt: 10, // Account for fixed AppBar
-          pb: 4,
+          mt: '80px', // Account for fixed AppBar
         }}
       >
-        <Container maxWidth="lg" sx={{ width: '100%', flex: 1 }}>
-          {children}
-        </Container>
+        {children}
       </Box>
       
       <Footer />
